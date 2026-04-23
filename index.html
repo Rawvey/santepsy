@@ -1,0 +1,1444 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNG-2360 — Santé psychologique au travail</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;0,8..60,600;1,8..60,300&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f3efe6;--bg2:#eae5da;--sidebar:#1a2838;--sidebar2:#223044;
+  --accent:#c05a28;--accent2:#5a8e78;--accent3:#3a6080;--accent4:#8b5e9a;
+  --text:#1c1c1c;--muted:#6b6260;--card:#ffffff;--border:#d5cfc4;
+  --shadow:0 2px 18px rgba(0,0,0,0.07);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Source Serif 4',Georgia,serif;background:var(--bg);color:var(--text);display:flex;min-height:100vh;font-size:15.5px;line-height:1.72}
+
+/* SIDEBAR */
+#sb{width:268px;min-width:268px;background:var(--sidebar);color:#ccc;display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100}
+.sb-hd{padding:26px 22px 18px;border-bottom:1px solid rgba(255,255,255,0.07)}
+.sb-hd .tag{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;color:var(--accent);text-transform:uppercase;margin-bottom:4px}
+.sb-hd h1{font-family:'Playfair Display',serif;font-size:15px;font-weight:700;color:#fff;line-height:1.35}
+.sb-cat{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase;color:rgba(255,255,255,0.28);padding:18px 22px 7px}
+.sb-a{display:flex;align-items:flex-start;gap:9px;padding:8px 22px 8px 18px;cursor:pointer;transition:background 0.14s,color 0.14s;font-family:'DM Sans',sans-serif;font-size:12.5px;color:rgba(255,255,255,0.58);text-decoration:none;border-left:3px solid transparent;user-select:none}
+.sb-a:hover{background:var(--sidebar2);color:#fff}
+.sb-a.active{background:var(--sidebar2);color:#fff;border-left-color:var(--accent);font-weight:600}
+.sb-a .ico{font-size:11px;min-width:16px;color:var(--accent);margin-top:1px}
+.sb-div{height:1px;background:rgba(255,255,255,0.06);margin:10px 22px}
+
+/* MAIN */
+#main{margin-left:268px;flex:1}
+.sec{display:none;animation:fi .3s ease}
+.sec.active{display:block}
+@keyframes fi{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* HERO */
+.hero{background:var(--sidebar);color:white;padding:48px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-50px;right:-60px;width:280px;height:280px;border-radius:50%;background:rgba(192,90,40,0.1);pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-30px;left:15%;width:180px;height:180px;border-radius:50%;background:rgba(90,142,120,0.08);pointer-events:none}
+.hero .htag{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px;position:relative}
+.hero h2{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;line-height:1.25;margin-bottom:14px;position:relative}
+.hero p{font-size:.95rem;color:rgba(255,255,255,0.68);max-width:600px;line-height:1.7;position:relative}
+
+/* BODY */
+.body{padding:44px 60px;max-width:900px}
+h3.sh{font-family:'Playfair Display',serif;font-size:1.3rem;font-weight:700;margin-bottom:6px;margin-top:28px}
+h3.sh:first-child{margin-top:0}
+p.lede{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;line-height:1.65}
+
+/* CARDS */
+.card{background:var(--card);border-radius:11px;padding:24px 28px;margin-bottom:20px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.card h4{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;margin-bottom:10px}
+.card p{font-size:.93rem;color:#3a3632;margin-bottom:8px;line-height:1.68}
+.card p:last-child{margin-bottom:0}
+.ca{border-left:4px solid var(--accent)}
+.ca2{border-left:4px solid var(--accent2)}
+.ca3{border-left:4px solid var(--accent3)}
+.ca4{border-left:4px solid var(--accent4)}
+
+/* ACCORDION */
+.acc{margin-bottom:10px}
+.acc-h{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:13px 18px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;transition:background .15s;user-select:none}
+.acc-h:hover{background:var(--bg2)}
+.acc-h.open{border-radius:8px 8px 0 0;background:var(--sidebar);color:white;border-color:var(--sidebar)}
+.acc-arr{transition:transform .22s;font-size:11px}
+.acc-h.open .acc-arr{transform:rotate(180deg)}
+.acc-b{display:none;background:var(--card);border:1px solid var(--border);border-top:none;border-radius:0 0 8px 8px;padding:18px 22px;font-size:.9rem;color:#3a3632;line-height:1.72}
+.acc-b.open{display:block}
+.acc-b ul{padding-left:18px;margin-top:8px}
+.acc-b li{margin-bottom:6px}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:20px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:20px}
+.gcard{background:var(--card);border-radius:10px;padding:18px 18px;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:transform .18s,box-shadow .18s}
+.gcard:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.1)}
+.gcard .gtag{font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;display:inline-block;padding:2px 8px;border-radius:20px;margin-bottom:7px}
+.gt1{background:rgba(192,90,40,.1);color:var(--accent)}
+.gt2{background:rgba(90,142,120,.1);color:var(--accent2)}
+.gt3{background:rgba(58,96,128,.1);color:var(--accent3)}
+.gt4{background:rgba(139,94,154,.1);color:var(--accent4)}
+.gcard h4{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin-bottom:6px;line-height:1.3}
+.gcard p{font-size:.82rem;color:var(--muted);line-height:1.5}
+
+/* STATS */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:20px 0}
+.stat{background:var(--sidebar);color:white;border-radius:10px;padding:18px 14px;text-align:center}
+.stat .n{font-family:'Playfair Display',serif;font-size:1.9rem;font-weight:700;color:var(--accent);line-height:1}
+.stat .l{font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(255,255,255,0.6);margin-top:5px;line-height:1.4}
+
+/* PILL */
+.pill{display:inline-block;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:3px 9px;border-radius:20px;margin-right:5px;margin-bottom:6px}
+.p1{background:rgba(192,90,40,.1);color:var(--accent)}
+.p2{background:rgba(90,142,120,.1);color:var(--accent2)}
+.p3{background:rgba(58,96,128,.1);color:var(--accent3)}
+.p4{background:rgba(139,94,154,.1);color:var(--accent4)}
+
+/* HIGHLIGHT */
+.hl{background:linear-gradient(135deg,rgba(192,90,40,.07),rgba(192,90,40,.02));border:1px solid rgba(192,90,40,.22);border-radius:9px;padding:16px 20px;margin:18px 0}
+.hl p{font-size:.92rem;line-height:1.65;font-style:italic}
+
+/* TIMELINE */
+.tl{position:relative;padding-left:26px;margin-top:14px}
+.tl::before{content:'';position:absolute;left:8px;top:8px;bottom:8px;width:2px;background:var(--border)}
+.tl-item{position:relative;margin-bottom:20px}
+.tl-item::before{content:'';position:absolute;left:-22px;top:6px;width:11px;height:11px;border-radius:50%;background:var(--accent);border:2px solid white;box-shadow:0 0 0 2px var(--accent)}
+.tl-item h5{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:700;margin-bottom:4px}
+.tl-item p{font-size:.86rem;color:var(--muted);line-height:1.6}
+
+/* NAV BTNS */
+.navr{display:flex;gap:10px;margin-top:36px;flex-wrap:wrap}
+.btn{font-family:'DM Sans',sans-serif;font-size:.85rem;font-weight:600;padding:9px 18px;border-radius:8px;cursor:pointer;transition:all .18s;text-decoration:none;display:inline-flex;align-items:center;gap:5px;border:none}
+.btn-p{background:var(--accent);color:white}
+.btn-p:hover{background:#a04820}
+.btn-s{background:white;color:var(--text);border:2px solid var(--border)}
+.btn-s:hover{border-color:var(--accent);color:var(--accent)}
+
+/* QUIZ */
+.qq{background:var(--card);border-radius:11px;padding:24px 28px;box-shadow:var(--shadow);border:1px solid var(--border);margin-bottom:14px}
+.qq .qlbl{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.qq .qt{font-size:.95rem;font-weight:600;margin-bottom:18px;line-height:1.5}
+.qbtns{display:flex;gap:10px}
+.qbtn{padding:9px 24px;border-radius:8px;border:2px solid var(--border);background:white;font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:600;cursor:pointer;transition:all .18s}
+.qbtn:hover{border-color:var(--accent);color:var(--accent)}
+.qbtn:disabled{opacity:.5;cursor:default}
+.qbtn.ok{background:#3a7a5a;color:white;border-color:#3a7a5a}
+.qbtn.ko{background:#b03a2e;color:white;border-color:#b03a2e}
+.qfb{display:none;margin-top:14px;padding:13px 18px;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:.88rem;line-height:1.6}
+.qfb.r{background:rgba(58,122,90,.09);border-left:4px solid #3a7a5a;color:#1a4a30}
+.qfb.w{background:rgba(176,58,46,.07);border-left:4px solid #b03a2e;color:#6a1a14}
+
+/* SCENARIO */
+.sc-intro{background:linear-gradient(135deg,#1a2838,#223044);color:white;border-radius:13px;padding:28px 32px;margin-bottom:22px;position:relative;overflow:hidden}
+.sc-intro::before{content:'';position:absolute;top:-25px;right:-25px;width:130px;height:130px;border-radius:50%;background:rgba(192,90,40,.14)}
+.sc-lbl{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+.sc-intro h3{font-family:'Playfair Display',serif;font-size:1.25rem;margin-bottom:12px}
+.sc-intro p{font-size:.9rem;color:rgba(255,255,255,.72);line-height:1.68}
+.sc-step{display:none}
+.sc-step.active{display:block;animation:fi .3s ease}
+.sc-ctx{background:var(--card);border-radius:11px;padding:24px 28px;margin-bottom:18px;box-shadow:var(--shadow);border:1px solid var(--border)}
+.sc-ctx h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:10px}
+.sc-ctx p{font-size:.92rem;line-height:1.68}
+.sc-q{font-family:'DM Sans',sans-serif;font-size:.95rem;font-weight:700;color:var(--accent);margin-bottom:14px}
+.sc-choices{display:flex;flex-direction:column;gap:9px;margin-bottom:18px}
+.sc-ch{background:white;border:2px solid var(--border);border-radius:9px;padding:12px 18px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.87rem;line-height:1.5;transition:all .18s;text-align:left}
+.sc-ch:hover{border-color:var(--accent3);background:rgba(58,96,128,.04)}
+.sc-ch.good{border-color:#3a7a5a;background:rgba(58,122,90,.05)}
+.sc-ch.bad{border-color:#b03a2e;background:rgba(176,58,46,.05)}
+.sc-ch.ok{border-color:#c8932a;background:rgba(200,147,42,.05)}
+.sc-res{display:none;padding:15px 20px;border-radius:9px;font-family:'DM Sans',sans-serif;font-size:.9rem;line-height:1.65;margin-bottom:14px}
+.sc-res.show{display:block;animation:fi .28s ease}
+.sc-res.good{background:rgba(58,122,90,.09);border-left:4px solid #3a7a5a}
+.sc-res.bad{background:rgba(176,58,46,.07);border-left:4px solid #b03a2e}
+.sc-res.ok{background:rgba(200,147,42,.07);border-left:4px solid #c8932a}
+.sc-next{background:var(--accent);color:white;border:none;padding:10px 22px;border-radius:7px;font-family:'DM Sans',sans-serif;font-weight:600;font-size:.88rem;cursor:pointer;display:none;transition:background .18s;margin-top:4px}
+.sc-next.show{display:inline-block}
+.sc-next:hover{background:#a04820}
+.pgbar{display:flex;gap:5px;margin-bottom:22px;align-items:center}
+.pgstp{height:4px;flex:1;border-radius:4px;background:var(--border);transition:background .38s}
+.pgstp.done{background:var(--accent)}
+.pglbl{font-family:'DM Sans',sans-serif;font-size:11px;color:var(--muted);margin-left:4px;white-space:nowrap}
+
+/* TUTOR */
+#tbtn{position:fixed;bottom:26px;right:26px;width:56px;height:56px;border-radius:50%;background:var(--accent);color:white;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 22px rgba(192,90,40,.42);z-index:200;transition:transform .18s,box-shadow .18s;font-size:21px}
+#tbtn:hover{transform:scale(1.07);box-shadow:0 6px 28px rgba(192,90,40,.52)}
+#tpanel{position:fixed;bottom:96px;right:26px;width:374px;height:510px;background:white;border-radius:17px;box-shadow:0 12px 50px rgba(0,0,0,.17);z-index:200;display:none;flex-direction:column;overflow:hidden;border:1px solid var(--border);animation:sUp .28s ease}
+#tpanel.open{display:flex}
+@keyframes sUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+.t-hd{background:var(--sidebar);color:white;padding:16px 18px;display:flex;align-items:center;gap:11px}
+.t-av{width:34px;height:34px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
+.t-info h4{font-family:'DM Sans',sans-serif;font-size:.87rem;font-weight:700;margin-bottom:1px}
+.t-info span{font-family:'DM Sans',sans-serif;font-size:.72rem;color:rgba(255,255,255,.52)}
+.t-close{margin-left:auto;background:none;border:none;color:rgba(255,255,255,.55);cursor:pointer;font-size:17px;padding:4px;line-height:1;transition:color .14s}
+.t-close:hover{color:white}
+.t-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px;background:#f6f3ee}
+.tmsg{max-width:86%;padding:9px 13px;border-radius:13px;font-family:'DM Sans',sans-serif;font-size:.83rem;line-height:1.55;animation:fi .22s ease}
+.tmsg.bot{background:white;border:1px solid var(--border);border-radius:4px 13px 13px 13px;color:var(--text);align-self:flex-start}
+.tmsg.user{background:var(--accent);color:white;border-radius:13px 4px 13px 13px;align-self:flex-end}
+.tmsg.typing{background:white;border:1px solid var(--border);border-radius:4px 13px 13px 13px;align-self:flex-start;padding:13px 17px}
+.dots{display:flex;gap:4px;align-items:center}
+.dots span{width:6px;height:6px;border-radius:50%;background:#999;animation:boun 1.2s infinite}
+.dots span:nth-child(2){animation-delay:.2s}
+.dots span:nth-child(3){animation-delay:.4s}
+@keyframes boun{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+.t-sugg{display:flex;flex-wrap:wrap;gap:5px;padding:0 13px 9px;background:white}
+.t-sg{font-family:'DM Sans',sans-serif;font-size:10.5px;padding:4px 9px;border-radius:20px;border:1px solid var(--border);background:#f6f3ee;cursor:pointer;transition:all .14s;color:var(--muted)}
+.t-sg:hover{border-color:var(--accent);color:var(--accent);background:white}
+.t-inp{display:flex;gap:7px;padding:11px 13px;border-top:1px solid var(--border);background:white}
+.t-inp input{flex:1;border:1px solid var(--border);border-radius:7px;padding:7px 11px;font-family:'DM Sans',sans-serif;font-size:.84rem;outline:none;transition:border .14s;background:#f6f3ee;color:var(--text)}
+.t-inp input:focus{border-color:var(--accent);background:white}
+.t-send{background:var(--accent);color:white;border:none;border-radius:7px;width:34px;height:34px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;transition:background .14s;flex-shrink:0}
+.t-send:hover{background:#a04820}
+.t-send:disabled{opacity:.5;cursor:default}
+
+/* WELCOME GRID */
+.wg{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:4px}
+.wcard{background:var(--card);border-radius:13px;padding:24px;box-shadow:var(--shadow);border:1px solid var(--border);cursor:pointer;transition:all .22s;position:relative;overflow:hidden}
+.wcard::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+.wcard.t1::before{background:linear-gradient(90deg,var(--accent),#e07040)}
+.wcard.t2::before{background:linear-gradient(90deg,var(--accent3),#5090b0)}
+.wcard.t3::before{background:linear-gradient(90deg,var(--accent2),#80b898)}
+.wcard.t4::before{background:linear-gradient(90deg,var(--accent4),#b080c0)}
+.wcard.t5::before{background:linear-gradient(90deg,#8a6a32,#b89050)}
+.wcard.t6::before{background:linear-gradient(90deg,#3a6050,#5a8878)}
+.wcard.t7::before{background:linear-gradient(90deg,#5a3a28,#8a5848)}
+.wcard:hover{transform:translateY(-4px);box-shadow:0 10px 32px rgba(0,0,0,.11)}
+.wcard .wi{font-size:26px;margin-bottom:12px}
+.wcard h3{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:8px}
+.wcard p{font-size:.83rem;color:var(--muted);line-height:1.55}
+.wbadge{position:absolute;top:18px;right:16px;font-family:'DM Sans',sans-serif;font-size:9.5px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;padding:2px 7px;border-radius:20px}
+.wb1{background:rgba(192,90,40,.1);color:var(--accent)}
+.wb2{background:rgba(58,96,128,.1);color:var(--accent3)}
+.wb3{background:rgba(90,142,120,.1);color:var(--accent2)}
+.wb4{background:rgba(139,94,154,.1);color:var(--accent4)}
+
+.done-banner{background:linear-gradient(135deg,#1a3c2a,#284832);color:white;border-radius:13px;padding:32px 36px;text-align:left;margin-top:28px}
+.done-banner .di{font-size:34px;margin-bottom:13px}
+.done-banner h3{font-family:'Playfair Display',serif;font-size:1.4rem;margin-bottom:12px}
+.done-banner p{font-size:.9rem;color:rgba(255,255,255,.72);margin-bottom:18px;max-width:100%;line-height:1.65}
+
+::-webkit-scrollbar{width:5px}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+#sb::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12)}
+</style>
+</head>
+<body>
+
+<nav id="sb">
+  <div class="sb-hd">
+    <div class="tag">MNG-2360</div>
+    <h1>Santé psychologique au travail</h1>
+  </div>
+
+  <div class="sb-cat">Démarrer</div>
+  <a class="sb-a active" onclick="go('home')"><span class="ico">⌂</span>Accueil</a>
+
+  <div class="sb-cat">Comprendre le stress</div>
+  <a class="sb-a" onclick="go('t1a')"><span class="ico">A</span>Fondements &amp; définitions</a>
+  <a class="sb-a" onclick="go('t1b')"><span class="ico">B</span>Modèles théoriques</a>
+
+  <div class="sb-cat">Les risques psychosociaux</div>
+  <a class="sb-a" onclick="go('t2a')"><span class="ico">A</span>5 facteurs CNESST</a>
+  <a class="sb-a" onclick="go('t2b')"><span class="ico">B</span>Charge de travail</a>
+  <a class="sb-a" onclick="go('t2c')"><span class="ico">C</span>Autonomie, reconnaissance, soutien</a>
+
+  <div class="sb-cat">Climat de sécurité psychosocial</div>
+  <a class="sb-a" onclick="go('t3')"><span class="ico">▸</span>CSP — La cause des causes</a>
+
+  <div class="sb-cat">Prévenir &amp; intervenir</div>
+  <a class="sb-a" onclick="go('t4a')"><span class="ico">A</span>3 niveaux de prévention</a>
+  <a class="sb-a" onclick="go('t4b')"><span class="ico">B</span>Démarche stratégique</a>
+
+  <div class="sb-cat">Rôle du gestionnaire</div>
+  <a class="sb-a" onclick="go('t5a')"><span class="ico">A</span>Pratiques de gestion &amp; IGLO</a>
+  <a class="sb-a" onclick="go('t5b')"><span class="ico">B</span>Santé du gestionnaire</a>
+
+  <div class="sb-cat">Détecter &amp; agir</div>
+  <a class="sb-a" onclick="go('t6a')"><span class="ico">A</span>Signes de détresse</a>
+  <a class="sb-a" onclick="go('t6b')"><span class="ico">B</span>Ouvrir le dialogue &amp; réseau DIR</a>
+
+  <div class="sb-cat">Enjeux contemporains</div>
+  <a class="sb-a" onclick="go('t7a')"><span class="ico">A</span>Présentéisme</a>
+  <a class="sb-a" onclick="go('t7b')"><span class="ico">B</span>Télétravail &amp; 4R</a>
+
+  <div class="sb-div"></div>
+  <div class="sb-cat">Activités</div>
+  <a class="sb-a" onclick="go('quiz')"><span class="ico">✎</span>Quiz interactif</a>
+  <a class="sb-a" onclick="go('sim')"><span class="ico">▶</span>Simulation de cas</a>
+  <a class="sb-a" onclick="openT()"><span class="ico">🤖</span>Tuteur IA</a>
+</nav>
+
+<main id="main">
+
+<!-- HOME -->
+<div id="sec-home" class="sec active">
+  <div class="hero">
+    <div class="htag">Module interactif complet</div>
+    <h2>Santé psychologique au travail</h2>
+    <p>Tout le contenu du cours organisé par thématiques — des fondements du stress aux enjeux contemporains. Explorez à votre rythme, testez-vous et posez vos questions à l'IA.</p>
+  </div>
+  <div class="body">
+    <p class="lede">7 thèmes, 14 sections, des quiz, une simulation de cas et un tuteur IA alimenté par le contenu du cours.</p>
+    <div class="wg">
+      <div class="wcard t1" onclick="go('t1a')"><div class="wbadge wb1">Fondements</div><div class="wi">🧠</div><h3>Comprendre le stress</h3><p>Définitions, modèles (Selye, Karasek, Siegrist, JD-R, Lazarus) et perspectives théoriques.</p></div>
+      <div class="wcard t2" onclick="go('t2a')"><div class="wbadge wb2">Risques</div><div class="wi">⚠️</div><h3>Risques psychosociaux</h3><p>Les 5 facteurs CNESST, charge de travail, autonomie, reconnaissance, soutien, justice organisationnelle.</p></div>
+      <div class="wcard t3" onclick="go('t3')"><div class="wbadge wb3">Climat</div><div class="wi">🌡️</div><h3>Climat de sécurité psychosocial</h3><p>La « cause des causes » du stress. 4 composantes et impacts mesurés.</p></div>
+      <div class="wcard t4" onclick="go('t4a')"><div class="wbadge wb1">Prévention</div><div class="wi">🛡️</div><h3>Prévenir &amp; intervenir</h3><p>3 niveaux de prévention, ACT, démarche stratégique en 5 étapes.</p></div>
+      <div class="wcard t5" onclick="go('t5a')"><div class="wbadge wb2">Gestion</div><div class="wi">👥</div><h3>Rôle du gestionnaire</h3><p>Pratiques de gestion, cadre IGLO, leadership et santé du gestionnaire.</p></div>
+      <div class="wcard t6" onclick="go('t6a')"><div class="wbadge wb3">Action</div><div class="wi">💬</div><h3>Détecter &amp; agir</h3><p>Signes de détresse, ouvrir le dialogue, réseau DIR (Dialoguer, Identifier, Référer).</p></div>
+      <div class="wcard t7" onclick="go('t7a')"><div class="wbadge wb4">Contemporain</div><div class="wi">💻</div><h3>Enjeux contemporains</h3><p>Présentéisme, télétravail hybride, charge de travail et les 4 R.</p></div>
+      <div class="wcard t4" onclick="go('quiz')" style="cursor:pointer"><div class="wbadge wb4">Interactif</div><div class="wi">✅</div><h3>Quiz &amp; Simulation</h3><p>Testez vos connaissances sur tous les thèmes et jouez un scénario gestionnaire RH.</p></div>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="n">7</div><div class="l">thèmes couverts</div></div>
+      <div class="stat"><div class="n">10+</div><div class="l">quiz vrai/faux</div></div>
+      <div class="stat"><div class="n">∞</div><div class="l">questions au tuteur IA</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- T1A FONDEMENTS -->
+<div id="sec-t1a" class="sec">
+  <div class="hero"><div class="htag">Comprendre le stress — Partie A</div><h2>Fondements &amp; définitions</h2><p>Qu'est-ce que la santé mentale, le bien-être, le stress et les risques psychosociaux ? Démêler les concepts de base.</p></div>
+  <div class="body">
+    <h3 class="sh">La santé : plus que l'absence de maladie</h3>
+    <p class="lede">L'OMS (1948) définit la santé comme « un état complet de bien-être physique, mental et social » — pas simplement l'absence de maladie.</p>
+    <div class="g2">
+      <div class="card ca"><h4>Bien-être psychologique</h4><p>Expérience subjective positive où l'on tend à exprimer le meilleur de soi. Se construit à travers soi, ses relations sociales et ses interactions avec l'organisation (Dagenais-Desmarais, 2010).</p></div>
+      <div class="card ca3"><h4>Détresse psychologique</h4><p>Éventail de symptômes communément considérés troublants ou hors de l'ordinaire suite à un ou plusieurs événements. Concept bidimensionnel avec le bien-être (Leclerc et coll., 2014).</p></div>
+    </div>
+
+    <h3 class="sh">Le stress — une définition opérationnelle</h3>
+    <div class="card">
+      <p>À son plus simple : le stress est une tension ressentie quand les <strong>demandes attendues</strong> de nous dépassent les <strong>ressources</strong> que nous avons pour y répondre.</p>
+      <p>⚠️ Attention à la confusion entre <strong>pression</strong> et <strong>stress</strong> : une pression acceptable peut être motivante (loi de Yerkes-Dodson). C'est quand la pression devient excessive et ingérable qu'elle devient stress.</p>
+    </div>
+
+    <h3 class="sh">Pourquoi s'y intéresser ?</h3>
+    <div class="stats">
+      <div class="stat"><div class="n">50G$</div><div class="l">coûts annuels en santé mentale au Canada</div></div>
+      <div class="stat"><div class="n">44%</div><div class="l">des travailleurs québécois en détresse élevée (2021)</div></div>
+      <div class="stat"><div class="n">17%</div><div class="l">moins de détresse dans les orgs. qui priorisent la SM</div></div>
+    </div>
+
+    <h3 class="sh">Les conséquences du stress au travail</h3>
+    <div class="g2">
+      <div class="card"><h4>Sur le plan physique</h4><p>TMS, troubles du sommeil, troubles cardiovasculaires, gastro-intestinaux, affaiblissement du système immunitaire, symptômes somatiques.</p></div>
+      <div class="card"><h4>Sur le plan psychologique</h4><p>Fatigue, irritabilité, difficultés de concentration, oublis, dépression, épuisement professionnel, troubles de la consommation.</p></div>
+    </div>
+
+    <h3 class="sh">Le modèle bidimensionnel de la santé mentale</h3>
+    <div class="card ca2">
+      <h4>Deux axes indépendants (Keyes, 2002)</h4>
+      <p>La santé mentale n'est pas simplement l'absence de maladie. Elle se définit sur <strong>deux axes indépendants</strong> : le niveau de bien-être (élevé ↔ faible) et la présence de symptômes (élevée ↔ faible). Cela crée quatre profils possibles :</p>
+      <p style="margin-top:8px">• <strong>Épanouissement :</strong> bien-être élevé + peu de symptômes — l'idéal<br>
+      • <strong>Languissement :</strong> faible bien-être + peu de symptômes — souvent ignoré<br>
+      • <strong>Lutte :</strong> bien-être élevé malgré des symptômes présents — résilience<br>
+      • <strong>Détresse :</strong> faible bien-être + symptômes élevés — intervention nécessaire</p>
+      <p style="margin-top:8px">→ Implication : on peut réduire les symptômes <em>et</em> augmenter le bien-être. Les deux ne sont pas équivalents.</p>
+    </div>
+
+    <h3 class="sh">Démêler les termes clés</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Tableau des définitions (stress, bien-être, détresse, stresseurs…)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <table style="width:100%;border-collapse:collapse;font-size:.84rem">
+        <tr style="background:#f0ece4"><th style="text-align:left;padding:7px 10px;border-bottom:2px solid #d5cfc4">Terme</th><th style="text-align:left;padding:7px 10px;border-bottom:2px solid #d5cfc4">Définition courte</th><th style="text-align:left;padding:7px 10px;border-bottom:2px solid #d5cfc4">Exemples</th></tr>
+        <tr><td style="padding:7px 10px;border-bottom:1px solid #ede8de"><strong>Santé mentale</strong></td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">État de bien-être permettant de réaliser son potentiel et de contribuer à la communauté (OMS)</td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Vigueur, résilience, bonheur</td></tr>
+        <tr style="background:#f9f7f3"><td style="padding:7px 10px;border-bottom:1px solid #ede8de"><strong>Trouble de santé mentale</strong></td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Changements affectant la pensée, l'humeur ou le comportement, perturbant le fonctionnement</td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Anxiété, dépression, burnout</td></tr>
+        <tr><td style="padding:7px 10px;border-bottom:1px solid #ede8de"><strong>Bien-être au travail</strong></td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Perception positive de la vie professionnelle où l'individu se réalise</td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Satisfaction, engagement, sentiment de compétence</td></tr>
+        <tr style="background:#f9f7f3"><td style="padding:7px 10px;border-bottom:1px solid #ede8de"><strong>Stress</strong></td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Demandes perçues dépassant les ressources disponibles</td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Surcharge, conflit de rôle</td></tr>
+        <tr><td style="padding:7px 10px;border-bottom:1px solid #ede8de"><strong>Stresseurs (RPS)</strong></td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Facteurs liés à l'organisation du travail qui augmentent la probabilité d'effets néfastes</td><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Surcharge, manque autonomie, reconnaissance insuffisante</td></tr>
+        <tr style="background:#f9f7f3"><td style="padding:7px 10px"><strong>Conséquences</strong></td><td style="padding:7px 10px">Manifestations individuelles et organisationnelles du stress</td><td style="padding:7px 10px">TMS, absentéisme, roulement, détresse</td></tr>
+      </table>
+    </div></div>
+
+    <h3 class="sh">Portrait québécois — Données EQCOTESST</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Ce que l'on sait sur le stress au travail au Québec</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>L'Enquête québécoise sur les conditions de travail (Vézina et al., 2011) révèle :</p>
+      <ul>
+        <li><strong>49%</strong> des travailleurs rapportent une faible latitude décisionnelle</li>
+        <li><strong>48%</strong> rapportent un faible soutien social au travail</li>
+        <li><strong>38%</strong> rapportent une demande psychologique élevée</li>
+        <li><strong>25%</strong> vivent un déséquilibre effort-reconnaissance</li>
+        <li><strong>33%</strong> rapportent des niveaux de détresse modérés ou élevés (femmes +)</li>
+        <li><strong>12%</strong> ont des symptômes dépressifs — dont plus de 60% croient que c'est partiellement lié à leur emploi</li>
+      </ul>
+      <p style="margin-top:10px">Pendant la pandémie : <strong>51%</strong> des personnes en emploi en détresse élevée (avril 2020) — comparé à 24% en 2014-2015. Fin 2021 : retour à ~44%.</p>
+    </div></div>
+
+    <h3 class="sh">Approche positive vs prévention du stress</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Comparaison des deux approches</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p><strong>Approche positive (bien-être) :</strong> Plus acceptée par les gestionnaires, crée un fort sentiment d'appartenance. Risque d'être perçue comme tyrannique ou de ne concerner que les orgs. qui vont bien.</p>
+    <p style="margin-top:10px"><strong>Approche visant la prévention du stress :</strong> Évidences robustes sur les risques psychosociaux. Peut déterrer d'autres problèmes. Risque de stigmatiser les employés en détresse.</p>
+    <p style="margin-top:10px"><em>Idéalement, les deux approches se complètent — réduire les risques ET développer les ressources positives.</em></p></div></div>
+
+    <div class="navr"><button class="btn btn-p" onclick="go('t1b')">Modèles théoriques →</button></div>
+  </div>
+</div>
+
+<!-- T1B MODÈLES -->
+<div id="sec-t1b" class="sec">
+  <div class="hero"><div class="htag">Comprendre le stress — Partie B</div><h2>Modèles théoriques du stress</h2><p>Selye, Holmes &amp; Rahe, Lazarus &amp; Folkman, Karasek, Siegrist, JD-R — six grandes perspectives complémentaires.</p></div>
+  <div class="body">
+    <div class="card ca" style="margin-bottom:20px">
+      <h4>Un des premiers modèles — Cooper &amp; Marshall (1975)</h4>
+      <p>Avant les grands modèles interactionnistes, Cooper &amp; Marshall proposent un modèle intégrateur identifiant les sources de stress au travail : <strong>facteurs intrinsèques au travail</strong> (charge, conditions physiques), <strong>rôle dans l'organisation</strong> (ambiguïté, conflit), <strong>développement de carrière</strong>, <strong>relations au travail</strong> et <strong>structure organisationnelle</strong>. Ce modèle reste une référence pour l'identification des stresseurs professionnels.</p>
+    </div>
+
+    <p class="lede">Trois perspectives fondamentales : le stress comme réponse, comme stimulus, ou comme processus interactionnel.</p>
+    <div class="g3">
+      <div class="gcard"><div class="gtag gt1">Réponse</div><h4>Selye (1956)</h4><p>Réaction physiologique universelle et non-spécifique.</p></div>
+      <div class="gcard"><div class="gtag gt3">Stimulus</div><h4>Holmes &amp; Rahe (1967)</h4><p>Les événements de vie sont stressants en eux-mêmes.</p></div>
+      <div class="gcard"><div class="gtag gt2">Processus</div><h4>Lazarus, Karasek, Siegrist, JD-R</h4><p>Interaction entre l'individu et son environnement.</p></div>
+    </div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>🔴 Selye (1956) — Syndrome Général d'Adaptation</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Le stress = réponse non spécifique de l'organisme à toute demande. Réaction universelle en 3 phases :</p>
+      <ul><li><strong>Alarme :</strong> détection de l'agent stresseur, mobilisation immédiate.</li><li><strong>Résistance :</strong> mobilisation des ressources, à coût énergétique élevé.</li><li><strong>Épuisement :</strong> réserves épuisées, risques graves de santé.</li></ul>
+      <p style="margin-top:10px"><strong>Critiques :</strong> trop simpliste (Cox, 1985) — ignore les différences individuelles, inadéquat pour le stress psychosocial, ne tient pas compte de l'évaluation cognitive.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>🔵 Holmes &amp; Rahe (1967) — SRRS &amp; tracas quotidiens</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Les événements de vie (positifs ou négatifs) sont stressants par eux-mêmes. Score LCU &gt;150/an → plus de problèmes de santé.</p>
+      <p style="margin-top:8px"><strong>DHUS (Kanner et al., 1981) :</strong> les tracas et petites joies quotidiennes prédisent mieux la santé que les grands événements.</p>
+      <p style="margin-top:8px"><strong>Critiques :</strong> corrélation ≠ causalité, biais de rappel, aucune interaction individu-environnement, ignore les différences individuelles.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>🟢 Lazarus &amp; Folkman (1984) — Approche transactionnelle</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Le stress résulte de l'évaluation cognitive de la situation. Deux phases :</p>
+      <ul><li><strong>Évaluation primaire :</strong> la situation est-elle une menace, un défi ou une perte ?</li><li><strong>Évaluation secondaire :</strong> ai-je les ressources pour y faire face ?</li></ul>
+      <p style="margin-top:8px"><strong>Coping centré sur le problème :</strong> modifier la situation (plan d'action, résolution).</p>
+      <p><strong>Coping centré sur l'émotion :</strong> réguler les émotions (réévaluation positive, évitement).</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>📊 Karasek (1979) + Johnson (1989) — Demande-Latitude-Soutien</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Deux dimensions principales : <strong>demandes psychologiques</strong> (charge, pression temporelle) et <strong>latitude décisionnelle</strong> (autonomie, compétences).</p>
+      <p style="margin-top:8px"><strong>Job strain (tension élevée) :</strong> fortes demandes + faible autonomie → risque cardiovasculaire 20-40% plus élevé, risque de dépression +75%.</p>
+      <p>Johnson (1989) ajoute le <strong>soutien social</strong> comme 3e dimension protectrice.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>⚖️ Siegrist (1996) — Effort-Récompense</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Le stress naît d'un <strong>déséquilibre effort/récompense</strong> perçu. Récompenses = salaire, reconnaissance, sécurité d'emploi, promotion.</p>
+      <p style="margin-top:8px">Méta-analyses : déséquilibre E-R → +20% à +250% risque de maladie coronarienne ; +40-60% risque d'absence certifiée.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>🔧 JD-R (Bakker &amp; Demerouti, 2001)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Chaque profession a ses propres facteurs de risque. Classification en <strong>exigences</strong> (efforts, coûts) et <strong>ressources</strong> (organisationnelles, interpersonnelles, de tâche).</p>
+      <p style="margin-top:8px"><strong>Force :</strong> très flexible, applicable à tout contexte. <strong>Limite :</strong> cette flexibilité rend difficile la prédiction spécifique des causes et effets.</p>
+    </div></div>
+
+    <h3 class="sh" style="margin-top:28px">Stratégies de coping — comment on s'adapte</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Les deux grandes familles de coping (Lazarus &amp; Folkman)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="g2">
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">Centré sur le problème</strong>
+          <p style="margin-top:8px;font-size:.86rem">Vise à modifier la situation stressante elle-même :<br>• Résolution de problème (plan d'action, recherche d'info)<br>• Affrontement (efforts pour changer le problème)<br>• Planification stratégique</p>
+        </div>
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">Centré sur l'émotion</strong>
+          <p style="margin-top:8px;font-size:.86rem">Vise à réguler les tensions émotionnelles :<br>• Réévaluation positive de la situation<br>• Minimisation de la menace perçue<br>• Recherche de soutien émotionnel<br>• Évitement-fuite (moins efficace à long terme)</p>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:.88rem">En contexte professionnel : planifier son travail (cognitif-problème), exprimer ses préoccupations à son gestionnaire (comportemental-émotion), se concentrer sur ce qu'on contrôle (cognitif-émotion). Le coping le plus efficace est généralement flexible et adapté à la situation.</p>
+    </div></div>
+
+    <h3 class="sh">Points communs entre les modèles interactionnistes</h3>
+    <div class="card ca2">
+      <p>Karasek, Siegrist et JD-R partagent trois fondements :<br>
+      • Tous basés sur l'idée de <strong>déséquilibre entre contraintes et ressources</strong><br>
+      • Tous intègrent des <strong>facteurs organisationnels</strong> comme origine principale du stress<br>
+      • Tous s'inscrivent dans une logique <strong>individu ↔ environnement</strong> — le stress n'est ni dans la personne, ni dans l'environnement, mais dans leur interaction<br>
+      • Tous ont inspiré des interventions de prévention primaire en entreprise</p>
+    </div>
+  </div>
+</div>
+
+<!-- T2A RPS -->
+<div id="sec-t2a" class="sec">
+  <div class="hero"><div class="htag">Risques psychosociaux — Partie A</div><h2>Les 5 facteurs reconnus par la CNESST</h2><p>Depuis la Loi 27 (2021), les organisations québécoises ont l'obligation légale d'identifier et de prévenir les RPS.</p></div>
+  <div class="body">
+    <div class="hl"><p>Loi 27 (6 oct. 2021) — Art. 2 LSST : élimination à la source des dangers pour l'intégrité physique <em>et psychique</em> des travailleurs. Inclut le télétravail. <strong>Projet de loi 42</strong> : étend l'obligation de prévenir le harcèlement aux comportements des clients et fournisseurs, et prolonge le délai de réclamation pour violence à caractère sexuel.</p></div>
+
+    <h3 class="sh">Le cadre Identifier &rarr; Corriger &rarr; Contrôler</h3>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:16px">Pour chaque facteur de risque, la CNESST recommande trois niveaux d'action :</p>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>1. Charge de travail élevée</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Quantité de tâches, complexité, exigences intellectuelles, contraintes de temps, interruptions, charge émotionnelle.</p>
+    <p style="margin-top:8px"><strong>Identifier :</strong> Les travailleurs ont-ils les ressources adéquates ? Recourt-on régulièrement aux heures supplémentaires ?<br>
+    <strong>Corriger :</strong> Soutenir le développement des compétences, limiter le nombre de comités, réévaluer les indicateurs de performance, établir un droit à la déconnexion.<br>
+    <strong>Contrôler :</strong> Mettre en place des mécanismes pour connaître la charge réelle sur une base régulière et la réajuster.</p></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>2. Faible autonomie décisionnelle</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Pouvoir d'organiser son travail, liberté d'initiative, créativité. Deux volets : <strong>autorité/pouvoir</strong> (comment faire le travail) et <strong>accomplissement de soi</strong> (variété, apprentissage).</p>
+    <p style="margin-top:8px"><strong>Identifier :</strong> Les employés ont-ils des processus de participation aux décisions ? Les gestionnaires valorisent-ils les suggestions ?<br>
+    <strong>Corriger :</strong> Élaborer des outils de participation, définir les zones d'autonomie, diminuer les contrôles inutiles.<br>
+    <strong>Contrôler :</strong> Vérifier que les mécanismes de participation sont utilisés et que les décisions unilatérales se font moins fréquemment.</p></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>3. Faible reconnaissance</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Trois dimensions : <strong>Sociale</strong> (respect, estime), <strong>Économique</strong> (juste rémunération, promotion), <strong>Organisationnelle</strong> (sécurité d'emploi, avancement). La reconnaissance au travail augmente la motivation de 20% (Gallup, 2017).</p>
+    <p style="margin-top:8px"><strong>Identifier :</strong> Les efforts et réalisations sont-ils soulignés ? Y a-t-il des perspectives de promotion équitables ?<br>
+    <strong>Corriger :</strong> Intégrer la reconnaissance dans les critères d'évaluation des gestionnaires. Valoriser les tâches non-officielles ou invisibles.<br>
+    <strong>Contrôler :</strong> Évaluer si la reconnaissance est équitable entre les membres du personnel.</p></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>4. Faible soutien social</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Trois types : <strong>opérationnel</strong> (ressources, outils), <strong>informationnel</strong> (conseils, clarté des rôles), <strong>socio-émotionnel</strong> (écoute, respect). Le soutien du supérieur est lié : pression sanguine, maladies cardiovasculaires, dépression, satisfaction, absentéisme et productivité.</p>
+    <p style="margin-top:8px"><strong>Identifier :</strong> Les gestionnaires tiennent-ils des rencontres d'équipe régulières ? Les employés se sentent-ils écoutés ?<br>
+    <strong>Corriger :</strong> Former les gestionnaires à l'écoute active. S'aménager des moments d'échange informel.<br>
+    <strong>Contrôler :</strong> Sonder régulièrement la perception du soutien reçu (collègues ET supérieur).</p></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>5. Faible justice organisationnelle</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p><strong>Justice procédurale :</strong> équité des processus de décision (horaires, promotions, accès à la formation).<br><strong>Justice interactionnelle :</strong> degré de dignité, politesse et respect dans les interactions quotidiennes.</p>
+    <p style="margin-top:8px"><strong>Identifier :</strong> L'accès à la formation est-il équitable ? Tous reçoivent-ils des rétroactions sur leur travail ?<br>
+    <strong>Corriger :</strong> Documenter et standardiser les processus décisionnels. Former les gestionnaires à l'équité.<br>
+    <strong>Contrôler :</strong> Auditer les décisions de promotion, formation et horaire pour en vérifier l'équité.</p></div></div>
+
+    <div class="card ca3" style="margin-top:20px"><h4>Harcèlement et violence</h4><p>Les personnes avec de très fortes demandes sont <strong>2× plus à risque</strong> de harcèlement ; celles avec très faible autonomie sont <strong>4× plus à risque</strong> (Notelaers et al., 2013).</p></div>
+
+
+    <h3 class="sh">Framework : Identifier → Corriger → Contrôler</h3>
+    <p style="font-size:.92rem;color:var(--muted);margin-bottom:14px">Pour chaque facteur de RPS, ce cycle en trois temps permet d'agir de façon structurée.</p>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Application à la charge de travail élevée</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Identifier :</strong> Les travailleurs disposent-ils des moyens et ressources adéquates pour accomplir le travail demandé ? A-t-on régulièrement recours aux heures supplémentaires ?</p>
+      <p style="margin-top:8px"><strong>Corriger :</strong> Soutenir le développement des compétences. Limiter les comités. Réévaluer les indicateurs de performance. Établir un cadre formel sur le temps de travail et le droit à la déconnexion.</p>
+      <p style="margin-top:8px"><strong>Contrôler :</strong> Mettre en place des mécanismes pour connaître la charge de travail réelle sur une base régulière et la réajuster.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Application au harcèlement et à la violence</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Identifier :</strong> Existe-t-il une politique de prévention du harcèlement, connue de tous et appliquée ? Les gestionnaires sont-ils formés pour reconnaître les manifestations d'incivilité ?</p>
+      <p style="margin-top:8px"><strong>Corriger :</strong> Agir sur les facteurs de risques identifiés en consultant le personnel. Mettre en place des ressources et des mécanismes de soutien. Bonne pratique : gestion de proximité.</p>
+      <p style="margin-top:8px"><strong>Contrôler :</strong> Vérifier régulièrement si les politiques sont appliquées, comprises et atteignent leurs cibles.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Grille d'identification des RPS — INSPQ</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Partie 1 — Contexte :</strong> absentéisme et présentéisme, politiques de santé au travail, programme de retour au travail, conciliation travail-vie personnelle.</p>
+      <p style="margin-top:8px"><strong>Partie 2 — Organisation du travail :</strong> charge de travail, reconnaissance, soutien du supérieur immédiat, soutien des collègues, autonomie décisionnelle, information et communication.</p>
+      <p style="margin-top:8px">La grille est remplie par 2 à 3 informateurs clés (directeur, syndicat, représentant SST) selon leur crédibilité et leur degré d'influence. Avant un questionnaire : min. 100 personnes, engagement à diffuser les résultats, procédure confidentielle.</p>
+    </div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t1b')">← Modèles</button><button class="btn btn-p" onclick="go('t2b')">Charge de travail →</button></div>
+  </div>
+</div>
+
+<!-- T2B CHARGE -->
+<div id="sec-t2b" class="sec">
+  <div class="hero"><div class="htag">Risques psychosociaux — Partie B</div><h2>La charge de travail</h2><p>Un enjeu complexe : bien plus que la quantité visible. Trois dimensions et six facteurs sous-jacents.</p></div>
+  <div class="body">
+    <div class="g3">
+      <div class="card ca"><h4>Charge prescrite</h4><p>Les attentes officielles : nombre de dossiers, description de poste, ressources allouées.</p></div>
+      <div class="card ca3"><h4>Charge réelle</h4><p>Le travail réalisé pour surmonter les imprévus et contraintes du terrain — souvent invisible.</p></div>
+      <div class="card ca2"><h4>Charge vécue</h4><p>Le ressenti : sentiment de débordement, de contrôle ou d'incompétence. Propre à chaque employé.</p></div>
+    </div>
+
+    <h3 class="sh">Trois types d'exigences</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Exigences quantitatives, qualitatives et émotionnelles</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Quantitatives :</strong> quantité de travail, contraintes de temps, ressources, heures de travail.</p>
+      <p><strong>Qualitatives :</strong> complexité, concentration, demandes contradictoires, interruptions fréquentes.</p>
+      <p><strong>Émotionnelles :</strong> contact avec la souffrance (fatigue de compassion), gestion de ses émotions, peur (violence, erreur), conflits de valeurs.</p>
+    </div></div>
+
+    <h3 class="sh">Les 6 facteurs sous-jacents de la charge</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Pourquoi la charge est si difficile à gérer ? (Brun)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <ol style="padding-left:18px;line-height:2.1;font-size:.88rem">
+        <li><strong>Adéquation des outils :</strong> complexité croissante des outils, cohabitation d'anciennes et nouvelles méthodes, fragmentation des informations essentielles.</li>
+        <li><strong>Multiplication des demandes :</strong> grande diversité et quantité de tâches, interruptions constantes, travail simultané sur plusieurs dossiers, absence de priorités claires.</li>
+        <li><strong>Incohérences organisationnelles :</strong> contradiction entre la durée officielle de tâches et leur complexité réelle. Décalage entre les logiques de qualité, efficacité et productivité.</li>
+        <li><strong>Organisation du temps de travail :</strong> pour gérer la pression temporelle, les personnes travaillent en simultané, tournent les coins ronds, ou utilisent leurs pauses pour compléter le travail attendu.</li>
+        <li><strong>Reconnaissance et soutien social :</strong> le manque de compréhension de la réalité des employés et le contrôle via les données de gestion ont un impact direct sur la perception de la charge.</li>
+        <li><strong>Marge de manœuvre :</strong> paradoxe contemporain — imputabilité croissante avec de moins en moins de contrôle sur son propre travail. La centralisation des décisions diminue l'engagement.</li>
+      </ol>
+    </div></div>
+
+    <h3 class="sh">Les 4R — Reprendre le volant</h3>
+    <p style="margin-bottom:16px;font-size:.93rem;color:var(--muted);">Cadre pratique de Sandra Salvoni, CRHA pour gérer sa charge de travail.</p>
+    <div class="g2">
+      <div class="card ca"><h4>01 — Reconnaître</h4><p>Lire son tableau de bord. Suis-je plus irritable ? Est-ce que j'accumule les heures sans respirer ? Utiliser un journal de bord 3 jours pour noter son énergie et sa charge mentale.</p></div>
+      <div class="card ca3"><h4>02 — Reprioriser</h4><p>Recalculer l'itinéraire. Distinguer urgent/important (matrice Eisenhower). Bloquer 1h/semaine pour penser et planifier. Oser renégocier les échéances.</p></div>
+      <div class="card ca2"><h4>03 — Repartager</h4><p>Conduire en mode « main libre ». Cartographier ses tâches — lesquelles peuvent être déléguées ? Créer une culture de transparence sur ce qui déborde.</p></div>
+      <div class="card ca4"><h4>04 — Récupérer</h4><p>Faire le plein régulièrement. Dormir, bouger, protéger sa disponibilité mentale. Planifier chaque semaine un moment non négociable de ressourcement.</p></div>
+    </div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t2a')">← 5 facteurs</button><button class="btn btn-p" onclick="go('t2c')">Autonomie, reconnaissance, soutien →</button></div>
+  </div>
+</div>
+
+<!-- T2C -->
+<div id="sec-t2c" class="sec">
+  <div class="hero"><div class="htag">Risques psychosociaux — Partie C</div><h2>Autonomie, reconnaissance &amp; soutien social</h2><p>Les trois leviers sur lesquels le gestionnaire a le plus d'impact au quotidien.</p></div>
+  <div class="body">
+    <h3 class="sh">La reconnaissance — 4 formes (Brun &amp; Dugas, 2002)</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Reconnaissance existentielle</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>La base : reconnaître la personne dans son unicité. Gestes simples (bonjour, merci), consulter le personnel au quotidien. Avant tout informelle et exprimée en privé.</p></div></div>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Reconnaissance de la pratique de travail</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>La façon dont l'employé effectue sa tâche : créativité, innovation, travail d'équipe, qualité des relations. Reconnaître les tâches non-officielles ou invisibles.</p></div></div>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Reconnaissance de l'investissement</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Les efforts consentis, indépendamment des résultats. Energie déployée dans des conditions difficiles. Remerciements verbaux, lettre personnalisée. ⚠️ Attention à la flatterie non méritée.</p></div></div>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Reconnaissance des résultats</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Le produit final et la contribution aux objectifs. Efficace quand la performance est bonne. ⚠️ Peut engendrer jalousie et compétitivité accrue si mal utilisée.</p></div></div>
+
+    <div class="card ca3" style="margin-top:22px"><h4>Critères de qualité de la reconnaissance</h4><p>Sincérité, réactivité (immédiatement après l'acte), proximité hiérarchique, variabilité des pratiques, personnalisation, spécificité, cohérence avec les objectifs.</p></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Appliquer les 4 formes — exercice de réflexion</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p style="font-size:.88rem">Prenez un employé de votre équipe. Pour chacune des 4 formes de reconnaissance, posez-vous la question :</p>
+      <ul style="font-size:.88rem">
+        <li><strong>Existentielle :</strong> Ai-je pris le temps de demander comment elle/il va cette semaine ? Sait-elle/il que je connais son prénom, son rôle, sa valeur pour l'équipe ?</li>
+        <li><strong>Pratique de travail :</strong> Ai-je commenté <em>comment</em> elle/il travaille récemment — sa créativité, son soin, sa relation avec les clients ?</li>
+        <li><strong>Investissement :</strong> Ai-je reconnu les efforts fournis, indépendamment des résultats ? Surtout en période difficile ?</li>
+        <li><strong>Résultats :</strong> Si les résultats sont là, ai-je célébré l'accomplissement de façon spécifique et sincère ?</li>
+      </ul>
+      <p style="font-size:.88rem;margin-top:8px;font-style:italic">Attention : la reconnaissance axée uniquement sur les résultats peut engendrer jalousie et compétitivité. Commencer par les 3 premières formes est plus inclusif et plus sain.</p>
+    </div></div>
+
+    <h3 class="sh">L'autonomie décisionnelle — actions concrètes</h3>
+    <div class="card"><p>• Définir les <strong>zones d'autonomie</strong> et les expliquer aux employés.<br>• Éviter le prétexte de l'urgence pour des décisions rapides et unilatérales.<br>• Écouter les idées et faire le suivi des commentaires.<br>• Éviter de modifier les conditions de travail sans consultation préalable.</p></div>
+
+    <h3 class="sh">Le soutien social — une relation bidirectionnelle</h3>
+    <div class="hl"><p>Un supérieur soutenant influence positivement le bien-être des employés — et les employés qui se sentent bien influencent le style de gestion du supérieur. La poule ou l'œuf ? (Van Dierendonck et al., 2004)</p></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Ce à quoi le soutien du supérieur est lié</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Le soutien social du gestionnaire a été documenté comme étant associé à (Rick & Thomson, 2002 ; Bond et al., 2006) :</p>
+      <ul>
+        <li>La pression sanguine et les maladies cardiovasculaires</li>
+        <li>La dépression et l'anxiété</li>
+        <li>La satisfaction au travail</li>
+        <li>Le taux de roulement et l'absentéisme</li>
+        <li>La productivité et la performance</li>
+      </ul>
+      <p style="margin-top:8px">Autrement dit : le soutien social n'est pas un « nice to have » — c'est un déterminant de santé documenté avec des effets sur des indicateurs organisationnels concrets.</p>
+    </div></div>
+
+    <div class="card ca" style="margin-top:18px">
+      <h4>N'oubliez pas : les gestionnaires ont aussi besoin de soutien</h4>
+      <p>1 cadre sur 5 souffre de détresse psychologique. Les gestionnaires sont souvent oubliés dans les initiatives de santé organisationnelle — pourtant, un gestionnaire en détresse adopte de moins bonnes pratiques de gestion, ce qui affecte directement son équipe.</p>
+      <p style="margin-top:8px">Types de soutien dont les gestionnaires ont besoin : <strong>opérationnel</strong> (ressources, temps), <strong>informationnel</strong> (clarté des attentes), <strong>socio-émotionnel</strong> (écoute de leur propre supérieur).</p>
+    </div>
+
+    <h3 class="sh" style="margin-top:24px">Auto-évaluation — Autonomie dans votre équipe</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Évaluez la performance de votre organisation</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <table style="width:100%;border-collapse:collapse;font-size:.84rem">
+        <tr style="background:#f0ece4"><th style="padding:8px 10px;text-align:left;border-bottom:2px solid #d5cfc4">Pratique</th><th style="padding:8px 10px;text-align:center;border-bottom:2px solid #d5cfc4">Présente ?</th></tr>
+        <tr><td style="padding:7px 10px;border-bottom:1px solid #ede8de">La haute direction favorise la participation de tous aux décisions qui les concernent</td><td style="padding:7px 10px;text-align:center;border-bottom:1px solid #ede8de">☐</td></tr>
+        <tr style="background:#f9f7f3"><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Les gestionnaires valorisent les suggestions faites par les employés et en font le suivi</td><td style="padding:7px 10px;text-align:center;border-bottom:1px solid #ede8de">☐</td></tr>
+        <tr><td style="padding:7px 10px;border-bottom:1px solid #ede8de">Les employés ont la volonté et les moyens de prendre des responsabilités</td><td style="padding:7px 10px;text-align:center;border-bottom:1px solid #ede8de">☐</td></tr>
+        <tr style="background:#f9f7f3"><td style="padding:7px 10px">Il existe des processus formels de participation aux décisions pour les projets</td><td style="padding:7px 10px;text-align:center">☐</td></tr>
+      </table>
+    </div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t2b')">← Charge</button><button class="btn btn-p" onclick="go('t3')">Climat de sécurité →</button></div>
+  </div>
+</div>
+
+<!-- T3 CSP -->
+<div id="sec-t3" class="sec">
+  <div class="hero"><div class="htag">Thème 3</div><h2>Climat de sécurité psychosocial (CSP)</h2><p>« La cause des causes » du stress au travail. Les perceptions partagées sur la volonté organisationnelle de protéger la santé psychologique.</p></div>
+  <div class="body">
+    <p class="lede">Concept développé par Maureen Dollard (Australie, 2000s). Le CSP agit comme modérateur organisationnel : haut CSP = effets protecteurs ; bas CSP = amplification des risques.</p>
+
+    <h3 class="sh">Les 4 composantes du CSP</h3>
+    <div class="g2">
+      <div class="card ca"><h4>Engagement de la direction</h4><p>La haute direction agit rapidement pour corriger les problèmes qui portent atteinte à la santé psychologique. Comité permanent santé mentale avec budget récurrent.</p></div>
+      <div class="card ca3"><h4>Priorité</h4><p>La santé psychologique est considérée aussi importante que la productivité. Intégration de la santé mentale à la planification stratégique (pas juste sur papier).</p></div>
+      <div class="card ca2"><h4>Communication</h4><p>L'information concernant le bien-être au travail est régulièrement transmise. Formation continue aux gestionnaires sur leurs pratiques et l'écoute active.</p></div>
+      <div class="card ca4"><h4>Participation</h4><p>La prévention du stress implique tous les niveaux hiérarchiques. Des mécanismes permettent aux employés d'identifier les risques et les solutions.</p></div>
+    </div>
+
+    <h3 class="sh">Les impacts mesurés du CSP</h3>
+    <div class="stats">
+      <div class="stat"><div class="n">17%</div><div class="l">moins de détresse dans les orgs. à CSP fort</div></div>
+      <div class="stat"><div class="n">2×</div><div class="l">plus de jours d'invalidité/an (58 vs 38 jours)</div></div>
+      <div class="stat"><div class="n">160%</div><div class="l">plus de coûts — 67 000$ vs 33 000$/réclamation</div></div>
+    </div>
+    <div class="card" style="margin-top:4px;border-left:4px solid var(--accent4)">
+      <h4>Ce que concrètement un CSP fort ressemble</h4>
+      <p><strong>Engagement :</strong> Comité permanent santé mentale avec budget récurrent. Critères de recrutement des gestionnaires tenant compte de leur capacité à gérer des personnes.<br>
+      <strong>Priorité :</strong> Intégration de la santé mentale à la planification stratégique (pas juste sur papier). Politique d'absentéisme permettant des journées pour prendre soin de soi.<br>
+      <strong>Communication :</strong> Formation continue aux gestionnaires sur leurs pratiques et leurs impacts. Espaces de dialogue sur le travail.<br>
+      <strong>Participation :</strong> Mécanismes pour que les employés identifient eux-mêmes les risques et les solutions. Des interventions qui <em>suivent réellement</em> les sondages.</p>
+    </div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Comment le CSP agit-il ? (Effet de cascade)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="tl">
+        <div class="tl-item"><h5>Climat de sécurité psychosocial fort</h5><p>Priorité santé psychologique signalée par la haute direction.</p></div>
+        <div class="tl-item"><h5>Gestionnaire avec de l'autonomie</h5><p>Le CSP donne aux gestionnaires la latitude d'agir pour leur équipe.</p></div>
+        <div class="tl-item"><h5>Bonne santé psychologique du gestionnaire</h5><p>Un gestionnaire épanoui adopte de meilleures pratiques.</p></div>
+        <div class="tl-item"><h5>Pratiques favorisant la santé du personnel</h5><p>L'effet se propage vers les employés (Biron et al., 2018).</p></div>
+      </div>
+    </div></div>
+
+    <div class="hl"><p>« Cessez de dire aux gens de prendre soin d'eux. Offrez-leur aussi les conditions de travail pour le faire ! » — Caroline Biron, PhD</p></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t2c')">← RPS</button><button class="btn btn-p" onclick="go('t4a')">Prévention →</button></div>
+  </div>
+</div>
+
+<!-- T4A PRÉVENTION -->
+<div id="sec-t4a" class="sec">
+  <div class="hero"><div class="htag">Prévenir &amp; intervenir — Partie A</div><h2>3 niveaux de prévention</h2><p>De la modification des sources de risques (primaire) au soutien individuel (tertiaire) — les trois niveaux sont complémentaires.</p></div>
+  <div class="body">
+    <div class="card ca2" style="margin-bottom:22px"><h4>🟢 Prévention primaire — Agir à la source</h4><p>La plus efficace. Modifie ou élimine les facteurs de risque dans l'organisation. Exemples : ajuster la charge de travail, développer l'autonomie, améliorer la reconnaissance et le soutien.</p><p style="margin-top:8px">Facteurs de succès (Jauvin et al., 2014) : besoin de changement provenant de l'organisation elle-même, soutien de la haute direction dès le départ, participation active des employés.</p></div>
+    <div class="card ca3"><h4>🔵 Prévention secondaire — Renforcer les individus</h4><p>N'agit pas sur les sources. Développe la capacité à reconnaître et gérer le stress. Exemples : ateliers gestion du temps, méditation, yoga, formations à la pleine conscience.</p><p style="margin-top:8px"><strong>ACT (Acceptance &amp; Commitment Therapy) :</strong> favoriser l'acceptation des événements privés désagréables plutôt que leur évitement. Chez des travailleurs sociaux : 42% de réduction significative du stress (Brinkborg et al., 2011).</p></div>
+    <div class="card ca" style="margin-top:14px"><h4>🟠 Prévention tertiaire — Réparer les dommages</h4><p>Pour les personnes déjà en difficulté : PAE, thérapies individuelles/collectives, traitement médicamenteux, réintégration progressive. C'est davantage de la « postvention ».</p><p style="margin-top:8px">⚠️ Les données de prévention tertiaire (recours PAE, coûts invalidité) doivent alerter les gestionnaires à agir en prévention primaire.</p></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Étude clé — Bond et al. (2008) : combiner primaire + ACT</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Dans un centre d'appel au Royaume-Uni, une intervention de réorganisation du travail pour augmenter l'autonomie (prévention primaire) a été testée auprès de 312 participants.</p>
+      <p style="margin-top:8px">Résultats en 14 mois : amélioration de la santé mentale, baisse de l'absentéisme, hausse de la performance. <strong>Mais</strong> ces améliorations étaient significativement plus marquées chez les personnes ayant une grande flexibilité psychologique (approche ACT).</p>
+      <p style="margin-top:8px">→ Implication : former les employés à la flexibilité psychologique (secondaire) <em>amplifie</em> les effets des interventions organisationnelles (primaire). Les deux niveaux se potentialisent.</p>
+    </div></div>
+
+    <h3 class="sh">Hiérarchie des contrôles (CNESST)</h3>
+    <div class="card ca2">
+      <p>La hiérarchie des contrôles ordonne les types d'interventions du plus au moins efficace :<br>
+      1. <strong>Élimination</strong> — supprimer le risque à la source (ex. : réduire la charge de travail objectivement)<br>
+      2. <strong>Substitution</strong> — remplacer par quelque chose de moins risqué (ex. : changer les processus)<br>
+      3. <strong>Contrôles techniques</strong> — modifier l'environnement (ex. : outils de gestion du temps)<br>
+      4. <strong>Contrôles administratifs</strong> — politiques et procédures (ex. : politique de déconnexion)<br>
+      5. <strong>Équipements de protection</strong> — agir sur l'individu (ex. : programme de résilience)<br><br>
+      Les niveaux 1-3 correspondent à la prévention primaire. Le niveau 5 seul = approche band-aid.</p>
+    </div>
+
+    <div class="hl" style="margin-top:20px"><p>« The solution is management, not mindfulness. » — Tinline &amp; Cooper (2019). Les interventions primaires sont plus prometteuses, surtout combinées aux niveaux secondaire et tertiaire.</p></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t3')">← CSP</button><button class="btn btn-p" onclick="go('t4b')">Démarche stratégique →</button></div>
+  </div>
+</div>
+
+<!-- T4B DÉMARCHE -->
+<div id="sec-t4b" class="sec">
+  <div class="hero"><div class="htag">Prévenir &amp; intervenir — Partie B</div><h2>Démarche stratégique en 5 étapes</h2><p>La démarche structurée de Caroline Biron (IRSST) pour prévenir les problèmes de santé psychologique au travail.</p></div>
+  <div class="body">
+    <div class="tl">
+      <div class="tl-item"><h5>Étape 1 — Préparation</h5><p>Définir les objectifs réalistes, évaluer la faisabilité humaine, obtenir l'engagement de la direction, nommer un chef de projet et un comité de pilotage, planifier la communication.</p></div>
+      <div class="tl-item"><h5>Étape 2 — Évaluation de l'ampleur et identification des risques</h5><p>Utiliser les indicateurs collectifs (absentéisme, données assurance, accidents, mouvement de personnel). Entretiens auprès des employés et gestionnaires. Grille d'identification des RPS (INSPQ). Questionnaire si min. 100 personnes et engagement à diffuser les résultats.</p></div>
+      <div class="tl-item"><h5>Étape 3 — Identification des problèmes concrets</h5><p>Grille des problèmes. Difficultés possibles : conflits interpersonnels, gestionnaire qui conteste les problèmes, attaques personnelles.</p></div>
+      <div class="tl-item"><h5>Étape 4 — Élaboration des solutions</h5>
+        <p>Définir le champ des possibles, identifier les solutions. Quatre critères de sélection :</p>
+        <ul style="font-size:.84rem;margin-top:6px;padding-left:18px;line-height:1.9">
+          <li><strong>Élimination à la source :</strong> La solution agit-elle directement sur la cause du problème ?</li>
+          <li><strong>Critère des 2000 heures travaillées :</strong> L'action est-elle proportionnelle au nombre de personnes et d'heures exposées au risque ?</li>
+          <li><strong>Facilitation d'implantation :</strong> La solution est-elle réaliste compte tenu des ressources disponibles et du contexte organisationnel ?</li>
+          <li><strong>Popularité :</strong> La solution est-elle acceptée et soutenue par les employés et gestionnaires concernés ?</li>
+        </ul>
+      </div>
+      <div class="tl-item"><h5>Étape 5 — Implantation et suivi</h5><p>Utiliser les pratiques existantes pour économiser les ressources. Implanter des actions simples dans l'immédiat pour montrer que ça bouge. Partager la responsabilité entre groupes et sous-comités. Évaluer l'efficacité après 12-18 mois.</p></div>
+    </div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Critères de succès de l'implantation</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><ul>
+      <li>Utiliser les actions et pratiques existantes pour économiser efforts, temps et ressources.</li>
+      <li>Mettre en place des actions simples <em>rapidement</em> pour montrer que « ça bouge ».</li>
+      <li>Éviter l'essoufflement : partager la responsabilité entre groupes et sous-comités.</li>
+      <li>Diviser les interventions en primaire, secondaire et tertiaire.</li>
+      <li>Favoriser une approche participative : créer un espace de discussion pour gérer l'implantation.</li>
+      <li>Réévaluer le processus (discordance entre le risque visé et l'activité de prévention ?).</li>
+    </ul></div></div>
+
+    <h3 class="sh" style="margin-top:24px">Évaluer les impacts — deux niveaux</h3>
+    <div class="g2">
+      <div class="card ca2">
+        <h4>Évaluer l'efficacité</h4>
+        <p>Questionnaire administré 12 à 18 mois après le premier. Permet de savoir :</p>
+        <ul style="font-size:.86rem;padding-left:16px;margin-top:6px;line-height:1.9">
+          <li>Changements dans l'exposition aux facteurs de risque</li>
+          <li>Changements dans la détresse psychologique, la satisfaction et l'intention de quitter</li>
+          <li>Degré de participation aux interventions</li>
+          <li>Commentaires des travailleurs sur l'intervention</li>
+        </ul>
+      </div>
+      <div class="card ca3">
+        <h4>Évaluer le processus</h4>
+        <p>Ce qui peut avoir mal fonctionné :</p>
+        <ul style="font-size:.86rem;padding-left:16px;margin-top:6px;line-height:1.9">
+          <li>Discordance entre le risque visé et l'activité de prévention choisie</li>
+          <li>Délais dans l'implantation des activités</li>
+          <li>Manque de ressources pour promouvoir l'activité</li>
+          <li>Absence de consultation lors du choix des activités</li>
+          <li>Aucune participation de la direction</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3 class="sh">Mise en situation — exercice de réflexion</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Cas 1 — Le cynisme généralisé</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Dans une entreprise à but non lucratif (10 employés), deux projets d'amélioration de la qualité de vie au travail ont eu lieu dans les 5 dernières années. Des focus groups ont identifié les irritants — mais depuis, les employés n'ont reçu aucune rétroaction et peu d'actions concrètes ont été mises en place. Un cynisme généralisé règne. Vous êtes la nouvelle directrice générale.</p>
+      <p style="margin-top:10px"><strong>Comment abordez-vous la situation ?</strong></p>
+      <p style="margin-top:8px;font-style:italic;font-size:.88rem">Pistes : Commencer par <em>reconnaître publiquement</em> l'historique des démarches sans suite. Obtenir l'engagement de la direction. Mettre en place des actions simples et visibles rapidement. Communiquer les résultats de façon transparente, même si partiels.</p>
+    </div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Cas 2 — L'essoufflement après 8 mois</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Voilà 8 mois que les plans d'action sont terminés et que plusieurs actions sont mises en place. On ressent un essoufflement de la part des employés et des gestionnaires. Le comité de mise en œuvre ne tient plus de rencontres depuis 2 mois. Il reste très peu de budget.</p>
+      <p style="margin-top:10px"><strong>Que faites-vous ?</strong></p>
+      <p style="margin-top:8px;font-style:italic;font-size:.88rem">Pistes : Partager la responsabilité entre sous-comités. Identifier les actions à long terme (18 mois) vs court terme (6 mois). Favoriser l'approche participative pour redonner de l'énergie. Évaluer ce qui a fonctionné et communiquer les progrès pour maintenir l'engagement.</p>
+    </div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t4a')">← 3 niveaux</button><button class="btn btn-p" onclick="go('t5a')">Rôle du gestionnaire →</button></div>
+  </div>
+</div>
+
+<!-- T5A GESTIONNAIRE -->
+<div id="sec-t5a" class="sec">
+  <div class="hero"><div class="htag">Rôle du gestionnaire — Partie A</div><h2>Pratiques de gestion &amp; cadre IGLO</h2><p>Le gestionnaire est l'acteur-clé en santé psychologique — mais son pouvoir est souvent limité par ses propres contraintes.</p></div>
+  <div class="body">
+    <p class="lede">Les pratiques de gestion ont l'impact le plus important sur la prévention des RPS, mais c'est aussi le levier le plus difficile à actionner.</p>
+
+    <h3 class="sh">Le cadre IGLO (Nielsen et al., 2017)</h3>
+    <div class="g2">
+      <div class="card ca4"><h4>I — Individu</h4><p>Job crafting, sentiment d'efficacité personnelle, compétences, confiance en soi, optimisme, résilience. Prioriser = on ajoute ET on enlève.</p></div>
+      <div class="card ca2"><h4>G — Groupe</h4><p>Soutien social entre collègues, qualité des relations, culture d'équipe. S'entraider : « Est-ce que je peux t'aider ? »</p></div>
+      <div class="card ca3"><h4>L — Leaders</h4><p>Qualité de la relation avec le supérieur, perception d'un leadership positif. 1er port d'escale pour les employés en difficulté.</p></div>
+      <div class="card ca"><h4>O — Organisation</h4><p>Autonomie, pratiques RH, soutien organisationnel, politiques. CSP = condition sine qua non.</p></div>
+    </div>
+
+    <h3 class="sh">Norme Entreprise en Santé — 4 sphères</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Habitudes de vie, conciliation, environnement, pratiques de gestion</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Les interventions sur les <strong>pratiques de gestion</strong> (harcèlement, reconnaissance, autonomie, soutien, charge de travail, justice, compétences) sont les seules associées à une réduction significative de la détresse élevée. Les 3 autres sphères seules ne montrent pas d'effet significatif (Biron et al., 2018).</p>
+    </div></div>
+
+    <h3 class="sh">Pratiques saines de management en contexte hybride/télétravail</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Comportements managériaux favorables à la santé (Brun)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><ul>
+      <li>Être proactif pour aider les employés et connaître leur travail</li>
+      <li>Faire un suivi régulier de la charge de travail</li>
+      <li>Savoir écouter même sans apporter de solution immédiate</li>
+      <li>Permettre de décrocher / limiter les réunions</li>
+      <li>Être attentif aux signaux faibles de santé psychologique</li>
+      <li>Faire preuve d'empathie et clarifier régulièrement les rôles</li>
+      <li>Expliquer les décisions et être équitable</li>
+      <li>Être exemplaire dans sa façon de gérer son propre stress</li>
+    </ul></div></div>
+
+    <h3 class="sh">SCMIT — Les compétences de gestion du stress (Toderi et al., 2016)</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Les 4 dimensions de la gestion saine du stress en équipe</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="g2">
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">1. Gérer l'individu au sein de l'équipe</strong>
+          <p style="font-size:.83rem;margin-top:6px">Être accessible, empathique et sociable. Connaître les membres de son équipe de façon individualisée. Créer de la proximité même à distance.</p>
+        </div>
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">2. Gérer les situations difficiles</strong>
+          <p style="font-size:.83rem;margin-top:6px">Utiliser les ressources organisationnelles (RH, collègues gestionnaires). Résoudre les problèmes dès qu'ils surviennent. Gérer les conflits sans tarder.</p>
+        </div>
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">3. Être respectueux et responsable</strong>
+          <p style="font-size:.83rem;margin-top:6px">Intégrité, gestion de ses propres émotions, bienveillance. Être exemplaire dans sa façon de gérer son stress — les équipes observent et imitent.</p>
+        </div>
+        <div style="background:#f3efe6;padding:14px;border-radius:8px">
+          <strong style="font-family:'DM Sans',sans-serif;font-size:.88rem">4. Gérer et communiquer le travail</strong>
+          <p style="font-size:.83rem;margin-top:6px">Gestion proactive de la charge, résolution de problèmes, approche participative (impliquer l'équipe dans les décisions). Éviter l'imprévu par anticipation.</p>
+        </div>
+      </div>
+      <p style="margin-top:12px;font-size:.86rem">Important : il n'y a <em>aucune corrélation</em> entre l'autoévaluation des gestionnaires et la perception de leurs employés sur ces compétences (Salvoni et al., 2024). Les gestionnaires se voient souvent différemment de la façon dont ils sont perçus.</p>
+    </div></div>
+
+    <div class="hl"><p>« Dans un projet d'intervention, on commence par implanter les actions faciles. C'est la tarte au sucre. La gestion des risques psychosociaux, c'est le brocoli. » — Une gestionnaire (Biron et al., 2017)</p></div>
+
+    <h3 class="sh">Compétences managériales en prévention du stress (Yarker et al., 2008)</h3>
+    <p style="font-size:.92rem;color:var(--muted);margin-bottom:14px">Le référentiel HSE identifie 8 compétences-clés que les gestionnaires doivent développer pour prévenir le stress dans leurs équipes.</p>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Les 8 compétences clés</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <div class="g2">
+        <div>
+          <p style="font-size:.87rem;line-height:2"><strong>1. Respectueux et responsable :</strong> intégrité, gestion des émotions, bienveillance envers l'équipe.<br>
+          <strong>2. Gestion des situations difficiles :</strong> utilisation des ressources organisationnelles (RH, collègues), résolution de problèmes pour l'équipe, gestion des conflits.<br>
+          <strong>3. Gestion de l'individu au sein de l'équipe :</strong> accessible, empathique, sociable — gérer la personne ET la dynamique de groupe.<br>
+          <strong>4. Approche participative :</strong> donner des responsabilités professionnelles, encourager la participation, consulter avant de décider.</p>
+        </div>
+        <div>
+          <p style="font-size:.87rem;line-height:2"><strong>5. Résolution de problèmes :</strong> suivi des problèmes, ne pas être indécis, traiter les problèmes dès qu'ils surviennent.<br>
+          <strong>6. Gestion proactive du travail :</strong> anticiper la charge, empêcher la surcharge, prioriser le travail à venir.<br>
+          <strong>7. Gestion et communication des travaux :</strong> clarifier les rôles, communiquer les objectifs, donner des rétroactions.<br>
+          <strong>8. Engagement empathique :</strong> détecter les signaux faibles, s'intéresser au bien-être individuel.</p>
+        </div>
+      </div>
+      <p style="font-size:.86rem;margin-top:10px;font-style:italic">Ces compétences sont mesurables via le SCMIT (Stress Management Competency Indicator Tool, Toderi et al., 2016). Attention : l'autoévaluation des gestionnaires ne corrèle pas toujours avec la perception des employés — d'où l'importance de recueillir les deux perspectives.</p>
+    </div></div>
+
+    <h3 class="sh">Les pratiques liées au travail et à la carrière</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Pratiques RH et relationnelles (St-Hilaire et al., 2018)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Pratiques liées au travail :</strong></p>
+      <ul style="font-size:.87rem;padding-left:16px;line-height:1.9;margin-top:6px">
+        <li>Clarifier les rôles et responsabilités</li>
+        <li>Définir des objectifs clairs et réalistes</li>
+        <li>Fournir les ressources nécessaires pour accomplir le travail</li>
+        <li>Favoriser le développement des compétences</li>
+        <li>Reconnaître et évaluer la performance de façon juste</li>
+      </ul>
+      <p style="margin-top:12px"><strong>Pratiques relationnelles :</strong></p>
+      <ul style="font-size:.87rem;padding-left:16px;line-height:1.9;margin-top:6px">
+        <li>Créer un espace d'expression pour l'équipe</li>
+        <li>Faire preuve d'écoute active lors des difficultés</li>
+        <li>Soutenir l'équipe en période de changement</li>
+        <li>Adapter son style de gestion à la personne</li>
+        <li>Être un modèle dans la gestion de son propre stress</li>
+      </ul>
+    </div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t4b')">← Démarche</button><button class="btn btn-p" onclick="go('t5b')">Santé du gestionnaire →</button></div>
+  </div>
+</div>
+
+<!-- T5B SANTÉ GEST -->
+<div id="sec-t5b" class="sec">
+  <div class="hero"><div class="htag">Rôle du gestionnaire — Partie B</div><h2>La santé psychologique du gestionnaire</h2><p>Les gestionnaires sont aussi des humains vulnérables. Et leur santé a un impact direct sur celle de leurs employés.</p></div>
+  <div class="body">
+    <div class="card ca"><h4>L'effet de cascade</h4><p>Le stress des gestionnaires influence leurs comportements de leadership, qui sont des déterminants significatifs du stress et du burnout des employés (Harms et al., 2017).</p><p style="margin-top:8px">« Leading well is a matter of resources. » — Tafvelin et al. (2019). Les gestionnaires ayant des ressources psychologiques diminuées utilisent moins de leadership transformationnel et font plus de supervision abusive (Byrne et al., 2014).</p></div>
+
+    <h3 class="sh">Styles de leadership et santé des employés</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Leadership transformationnel (Bass, 1985)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Charisme, influence idéalisée (sens/valeurs), inspiration (positivisme), stimulation intellectuelle (créativité), considération individualisée (attention aux besoins). Nombreuses études démontrent son impact positif sur la santé psychologique.</p></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Leadership serviteur (Eva et al., 2019)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><p>Habilitation, humilité, authenticité, empathie, orientation, imputabilité, compassion, courage, altruisme, intégrité, écoute. Présente une valeur ajoutée par rapport au leadership transformationnel (Hoch et al., 2018).</p></div></div>
+
+    <div class="card ca3" style="margin-top:20px"><h4>Comment soutenir les gestionnaires ?</h4><p>• Offrir des ressources et du <strong>temps</strong> pour qu'ils puissent soutenir leurs équipes.<br>• Diminuer le nombre de comités/réunions auxquels ils doivent participer.<br>• Créer un CSP fort qui leur donne de la latitude d'action.<br>• Reconnaître qu'ils ont eux-mêmes des besoins de soutien : 1 cadre sur 5 souffre de détresse psychologique.</p></div>
+
+    <h3 class="sh">Ce dont les gestionnaires ont besoin</h3>
+    <div class="g2">
+      <div class="card ca3"><h4>Ressources pour agir</h4><p>Du <strong>temps</strong> dédié à la gestion des personnes (pas seulement des tâches). De l'<strong>autonomie</strong> pour adapter les conditions de travail de leur équipe. Un <strong>CSP organisationnel</strong> qui envoie le signal que la santé mentale est une priorité réelle.</p></div>
+      <div class="card ca"><h4>Soutien de leurs propres supérieurs</h4><p>Les gestionnaires ont aussi besoin d'écoute, de reconnaissance et de soutien. Faible latitude décisionnelle des gestionnaires = moins de ressources pour leurs équipes. Les supérieurs des gestionnaires influencent directement leur capacité à bien gérer.</p></div>
+    </div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Les ressources et contraintes des gestionnaires — ce qu'ils disent</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Dans une étude qualitative (75 entretiens avec des gestionnaires du secteur de la santé, Gilbert et al., en cours) :</p>
+      <p style="margin-top:8px;font-style:italic">« Moi j'y arrive pas, je suis surchargé de travail... on m'en demande de plus en plus... Mon budget est coupé, mes effectifs sont coupés. Chez nous c'est clair, on gère la décroissance. » — Un gestionnaire</p>
+      <p style="margin-top:10px">Les gestionnaires sont pris en sandwich : imputables envers le haut, responsables du bien-être vers le bas. Sans ressources propres, ils ne peuvent pas transmettre ce qu'ils n'ont pas reçu.</p>
+    </div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t5a')">← Pratiques IGLO</button><button class="btn btn-p" onclick="go('t6a')">Détecter la détresse →</button></div>
+  </div>
+</div>
+
+<!-- T6A DÉTRESSE -->
+<div id="sec-t6a" class="sec">
+  <div class="hero"><div class="htag">Détecter &amp; agir — Partie A</div><h2>Reconnaître les signes de détresse</h2><p>Les 4 axes des signes avant-coureurs. Agir rapidement a un impact positif sur l'intensité et la durée des symptômes.</p></div>
+  <div class="body">
+    <div class="card ca" style="margin-bottom:22px"><h4>La règle des 2 semaines</h4><p>Il est normal d'avoir de mauvaises journées. Mais la présence de signes et symptômes pendant <strong>plus de 2 semaines</strong> peut laisser présager une problématique. Agir rapidement réduit l'intensité et la durée des symptômes.</p></div>
+
+    <div class="g2">
+      <div class="card ca3"><h4>Cognitifs</h4><p>Problèmes de mémoire, difficultés à prendre des décisions, incapacité à se concentrer, pessimisme général, pensées anxieuses, inquiétude constante, anticipations négatives.</p></div>
+      <div class="card ca"><h4>Émotionnels</h4><p>Irritabilité, incapacité à se relaxer, sentiment d'isolement, dépression, agressivité soudaine, baisse du sens de l'humour, baisse de l'estime de soi.</p></div>
+      <div class="card ca4"><h4>Physiques</h4><p>Maux de tête/dos/estomac, tensions musculaires, insomnie, sensation de fatigue, douleurs dans la poitrine, palpitations, perte ou prise de poids.</p></div>
+      <div class="card ca2"><h4>Comportementaux</h4><p>Changements dans l'alimentation/sommeil, isolement, procrastination, abus d'alcool, sur-activité (sport, magasinage), réaction démesurée face aux imprévus.</p></div>
+    </div>
+
+    <h3 class="sh">En contexte de télétravail — signaux spécifiques</h3>
+    <div class="card"><p>• Employés surinvestis (courriels envoyés trop tôt ou trop tard)<br>• Sur-réactivité aux courriels<br>• Erreurs inhabituelles ou baisse de performance<br>• Silences inhabituels en réunion<br>• TMS, mal de dos, difficultés de sommeil, fatigue intense</p></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t5b')">← Gestionnaire</button><button class="btn btn-p" onclick="go('t6b')">Dialogue &amp; DIR →</button></div>
+  </div>
+</div>
+
+<!-- T6B DIALOGUE -->
+<div id="sec-t6b" class="sec">
+  <div class="hero"><div class="htag">Détecter &amp; agir — Partie B</div><h2>Ouvrir le dialogue &amp; réseau DIR</h2><p>Comment amorcer une conversation bienveillante et orienter vers les bonnes ressources.</p></div>
+  <div class="body">
+    <div class="hl"><p>Phrases clés : « <strong>Est-ce que tout va bien pour toi aujourd'hui ?</strong> » / « <strong>Comment ça va pour vrai ?</strong> » / « J'ai remarqué... tu sembles différent(e) depuis quelques temps... veux-tu m'en parler ? »</p></div>
+
+    <h3 class="sh">La recette secrète (12 étapes)</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Les 12 étapes d'un dialogue bienveillant</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><ol style="padding-left:18px;line-height:2">
+      <li>Parler avec son cœur</li><li>Prendre un RDV en privé et rappeler la confidentialité</li>
+      <li>Expliquer ce que vous avez observé (les signes, pas la personne globalement)</li>
+      <li>Interroger la personne sur comment elle se sent</li>
+      <li>Donner l'occasion à l'autre de s'exprimer</li>
+      <li>Écouter activement et poser des questions</li>
+      <li>Interroger sur ses préoccupations</li>
+      <li>Encourager la personne à jouer un rôle dans la prise d'action</li>
+      <li>Parler des signes, non de la personne dans sa globalité</li>
+      <li>Établir et confirmer les prochaines étapes</li>
+      <li>Remercier la personne de son écoute</li>
+      <li>Faire un suivi</li>
+    </ol></div></div>
+
+    <div class="g2" style="margin-top:20px">
+      <div class="card ca2"><h4>À faire</h4><p>Être présent, faire preuve d'empathie, amener à ouvrir le dialogue, écouter sans donner de solutions, valider le soutien requis, proposer le PAE, rassurer sur sa place dans l'équipe.</p></div>
+      <div class="card ca"><h4>À éviter</h4><p>Prendre le problème sur ses épaules, parler de sa propre expérience, minimiser la souffrance, « jouer » au psychologue, mettre de la pression, culpabiliser.</p></div>
+    </div>
+
+    <h3 class="sh">Réseau DIR — Dialoguer, Identifier, Référer</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Qu'est-ce qu'une personne-ressource DIR ?</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Un pair formé pour : détecter les signaux faibles, mener 1-2 entretiens d'écoute, orienter vers la ressource adaptée, respecter la totale confidentialité.</p>
+      <p style="margin-top:8px">Comparable aux premiers soins : des membres de la communauté formés pour agir promptement, en attendant que des spécialistes prennent le relais. Zone d'intervention : entre le malaise et la détresse légère.</p>
+      <p style="margin-top:8px"><strong>Ce que la personne-ressource ne fait PAS :</strong> diagnostic médical ou psychologique, accompagnement dans le temps, promesses.</p>
+    </div></div>
+
+    <h3 class="sh">4 attitudes face aux émotions de l'autre</h3>
+    <div class="g2">
+      <div class="card ca2"><h4>Empathie ✓</h4><p>Comprendre les émotions de l'autre sans se laisser submerger. L'objectif : créer un espace sécuritaire où la personne se sent entendue. C'est la posture à privilégier.</p></div>
+      <div class="card"><h4>Sympathie ⚠️</h4><p>Coller aux émotions de l'autre — on « plonge » avec la personne dans sa détresse. Risque de perdre son recul et sa capacité d'aide.</p></div>
+      <div class="card"><h4>Antipathie ✗</h4><p>Contrer l'émotion de l'autre (minimiser, nier, donner des conseils trop vite). La personne ne se sent pas entendue et se referme.</p></div>
+      <div class="card"><h4>Apathie ✗</h4><p>Négliger l'émotion de l'autre. Ignorer les signaux, ne pas réagir. Envoie le message que la souffrance ne compte pas.</p></div>
+    </div>
+
+    <h3 class="sh">Les 3 composantes de l'écoute active</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Questionnement, reformulation et synthèse</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Le questionnement :</strong> Permet de préciser, clarifier et approfondir. Stimule la pensée. Rechercher les faits (<em>ce qui a été vu, entendu</em>), les émotions (<em>ce qui a été ressenti</em>) et les opinions (<em>ce qui est pensé</em>). Préférer les questions ouvertes — éviter les « pourquoi » qui peuvent mettre sur la défensive.</p>
+      <p style="margin-top:10px"><strong>La reformulation :</strong> Redire ce qui a été exprimé dans la terminologie exacte de la personne. Objectif : indiquer que ce qui a été dit a bien été compris et valoriser la parole de l'autre.</p>
+      <p style="margin-top:10px"><strong>La synthèse :</strong> Résumer les idées essentielles, les décisions ou contradictions. Excellent moyen pour passer d'une étape à l'autre dans la conversation et vérifier la compréhension mutuelle.</p>
+    </div></div>
+
+    <h3 class="sh">Le triangle du sauveur — un piège à éviter</h3>
+    <div class="card ca">
+      <p>Dans les interactions de soutien, on peut involontairement jouer trois rôles problématiques :</p>
+      <p style="margin-top:8px">
+      <strong>Sauveur → à transformer en Coach :</strong> Plutôt que de régler les problèmes à la place de l'autre, se demander : « Que puis-je faire pour que l'autre trouve <em>seul</em> sa propre solution ? »<br><br>
+      <strong>Persécuteur → à transformer en Challenger :</strong> Plutôt que de blâmer ou d'imposer, demander : « De quoi as-tu besoin ? Auprès de qui peux-tu le trouver ? »<br><br>
+      <strong>Victime → à transformer en Créateur :</strong> Plutôt que de se sentir impuissant, se demander : « Que puis-je faire <em>concrètement</em> pour améliorer ma situation ? »</p>
+    </div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t6a')">← Signes</button><button class="btn btn-p" onclick="go('t7a')">Présentéisme →</button></div>
+  </div>
+</div>
+
+<!-- T7A PRÉSENTÉISME -->
+<div id="sec-t7a" class="sec">
+  <div class="hero"><div class="htag">Enjeux contemporains — Partie A</div><h2>Le présentéisme</h2><p>Travailler malade — un comportement adaptatif aux multiples formes, aux conséquences trop souvent sous-estimées.</p></div>
+  <div class="body">
+    <p class="lede">Présentéisme ≠ manque de motivation. Il doit y avoir un problème de santé sous-jacent. Le phénomène coûte 2 à 3× le coût de l'absentéisme.</p>
+
+    <h3 class="sh">Typologie (Karanika-Murray &amp; Biron, 2020)</h3>
+    <div class="g2">
+      <div class="card ca2"><h4>Fonctionnel</h4><p>Ajustement optimal : santé contrainte mais performance maintenue. Ce type peut être adaptatif.</p></div>
+      <div class="card ca4"><h4>Thérapeutique</h4><p>Refuge au travail mais improductivité. Le travail sert de ressource pour le rétablissement.</p></div>
+      <div class="card ca"><h4>Excessif</h4><p>Performance maintenue au détriment de la santé. Risque de détérioration à long terme.</p></div>
+      <div class="card" style="border-left:4px solid #b03a2e"><h4>Dysfonctionnel</h4><p>Mauvaise santé ET mauvaise performance. Signal d'alarme clair pour le gestionnaire.</p></div>
+    </div>
+
+    <h3 class="sh">Pourquoi travaille-t-on malade ?</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Motifs individuels, de travail, organisationnels et culturels</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p><strong>Individuels :</strong> engagement excessif (workaholisme), raisons financières, éthique du travail.</p>
+      <p><strong>Travail :</strong> charge élevée, compétences irremplaçables, ne pas laisser tomber ses collègues.</p>
+      <p><strong>Organisationnels :</strong> politiques strictes d'absentéisme, pénurie de personnel, insécurité d'emploi.</p>
+      <p><strong>Culturels/environnementaux :</strong> normes culturelles, contexte économique, pandémie.</p>
+    </div></div>
+
+    <h3 class="sh">Le processus décisionnel du présentéisme</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Pourquoi ce n'est pas toujours un vrai choix (Whysall, 2025)</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b">
+      <p>Pour certain·es, aller travailler en étant malade est <strong>automatique</strong> — une habitude, pas une décision réfléchie. Pour d'autres, c'est un processus conscient qui évalue les symptômes, la charge de travail et les conséquences.</p>
+      <p style="margin-top:8px">Mais pour beaucoup, <strong>ce n'est pas un vrai choix</strong> :</p>
+      <ul>
+        <li>Pas de congé maladie payé ou insuffisant</li>
+        <li>Peur de prendre du retard ou d'être perçu·e comme peu fiable</li>
+        <li>Compétences irremplaçables — personne d'autre ne peut faire le travail</li>
+        <li>Culture organisationnelle qui valorise la présence coûte que coûte</li>
+      </ul>
+      <p style="margin-top:8px">En télétravail, le présentéisme devient « invisible » — difficile pour les gestionnaires d'intervenir quand la personne travaille depuis son lit.</p>
+    </div></div>
+
+    <h3 class="sh">Les aspects positifs du présentéisme — nuancer</h3>
+    <div class="card ca2">
+      <p>Certains motifs de présentéisme peuvent être légitimes à court terme :<br>
+      • Soutenir un retour progressif après une absence<br>
+      • Réduire le fardeau des collègues lors d'une période critique<br>
+      • Maintenir l'estime de soi et le sentiment d'accomplissement pendant la maladie<br>
+      • Éviter les pertes économiques pour les travailleurs sans assurance ou à contrat</p>
+      <p style="margin-top:8px">⚠️ Ces bénéfices sont <em>à court terme</em>. À plus long terme, les conséquences sont presque toujours négatives : absentéisme, épuisement, accidents, insatisfaction des clients.</p>
+    </div>
+
+    <div class="card ca" style="margin-top:20px"><h4>Présent et malade aujourd'hui = absent demain</h4><p>Présentéisme de + de 5 jours = 1,5× plus de risque d'absence de plus d'un mois dans 2 ans. Incidence d'événement coronarien 2× plus élevée chez les hommes malades qui ne s'absentent pas (Kivimäki et al., 2005).</p></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t6b')">← Dialogue</button><button class="btn btn-p" onclick="go('t7b')">Télétravail &amp; 4R →</button></div>
+  </div>
+</div>
+
+<!-- T7B TÉLÉTRAVAIL -->
+<div id="sec-t7b" class="sec">
+  <div class="hero"><div class="htag">Enjeux contemporains — Partie B</div><h2>Télétravail hybride</h2><p>80% des télétravailleurs canadiens préfèrent travailler au moins la moitié de leurs heures à domicile — mais le télétravail n'est pas sans risques.</p></div>
+  <div class="body">
+    <div class="g2">
+      <div class="card ca2"><h4>Avantages</h4><p>Meilleure conciliation travail-vie personnelle, satisfaction au travail accrue, moins de déplacements. Avantageux pour la santé psychologique surtout en mode <strong>hybride partiel</strong>.</p></div>
+      <div class="card ca"><h4>Risques principaux</h4><p>TMS (ergonomie domicile), isolement social et épuisement professionnel, stress et surcharge de travail. Au T3 pandémie, le télétravailleur moyen travaillait <strong>2h de plus</strong> qu'au T1.</p></div>
+    </div>
+
+    <div class="card ca4" style="margin-bottom:20px">
+      <h4>Le paradoxe de l'autonomie</h4>
+      <p>Les télétravailleurs naviguent en permanence entre deux tensions opposées : <strong>l'autonomie personnelle</strong> (contrôle du lieu, du moment, de l'exécution du travail) et l'<strong>engagement professionnel</strong> envers leurs collègues et clients.</p>
+      <p style="margin-top:8px">Cette tension pousse beaucoup à adopter une <strong>norme de connectivité et d'accessibilité permanentes</strong> — disponibles à toute heure pour compenser la distance physique, ce qui érode progressivement les frontières travail-vie personnelle.</p>
+    </div>
+
+    <div class="hl"><p>« Loin des yeux, loin du cœur ? » Le présentéisme virtuel est réel : télétravailler en étant malade est aussi du présentéisme. 68,4% des personnes déclarant faire du présentéisme sont des télétravailleurs (Ruhle &amp; Schmoll, 2021).</p></div>
+
+    <h3 class="sh">Top 5 des pratiques de gestion à privilégier</h3>
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Approche préventive et proactive</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><ul>
+      <li>Créer des délais <strong>réalistes</strong> pour les travaux.</li>
+      <li>Favoriser le <strong>contrôle et l'autonomie décisionnelle</strong> au lieu d'imposer SA façon de faire.</li>
+      <li>Montrer de la considération pour l'<strong>équilibre travail-vie personnelle</strong>.</li>
+      <li>Empêcher que du travail supplémentaire soit confié à des employés déjà chargés.</li>
+      <li><strong>Communiquer</strong> : la communication, la confiance et le soutien sont les facteurs les plus importants pour les résultats du télétravail (Nakrosiene et al., 2019).</li>
+    </ul></div></div>
+
+    <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Bonnes pratiques de déconnexion</span><span class="acc-arr">▼</span></div>
+    <div class="acc-b"><ul>
+      <li>Préserver des horaires de travail raisonnables pour soi ET ses collaborateurs.</li>
+      <li>Ne pas solliciter les collègues en dehors des heures (week-end, soir, congés).</li>
+      <li>Mentionner dans ses messages qu'une réponse immédiate n'est pas requise.</li>
+      <li>Utiliser l'envoi en différé si vous rédigez un courriel hors heures.</li>
+      <li>Raccourcir les réunions : 25 ou 55 min au lieu de 30 ou 60.</li>
+    </ul></div></div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t7a')">← Présentéisme</button><button class="btn btn-p" onclick="go('quiz')">Quiz →</button></div>
+  </div>
+</div>
+
+<!-- QUIZ -->
+<div id="sec-quiz" class="sec">
+  <div class="hero"><div class="htag">Activité interactive</div><h2>Quiz — Vrai ou Faux ?</h2><p>10 questions couvrant l'ensemble des thèmes du cours. Feedback détaillé pour chaque réponse.</p></div>
+  <div class="body">
+
+    <div class="qq" id="q1"><div class="qlbl">Question 1</div><p class="qt">Selon Selye, les réactions au stress varient d'un individu à l'autre selon leur personnalité et leur histoire personnelle.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q1',true,false)">VRAI</button><button class="qbtn" onclick="ans('q1',false,false)">FAUX</button></div>
+    <div class="qfb" id="q1-f"></div></div>
+
+    <div class="qq" id="q2"><div class="qlbl">Question 2</div><p class="qt">Dans le modèle de Karasek, un emploi actif (fortes demandes + forte autonomie) est associé à un risque élevé de détresse psychologique.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q2',true,false)">VRAI</button><button class="qbtn" onclick="ans('q2',false,false)">FAUX</button></div>
+    <div class="qfb" id="q2-f"></div></div>
+
+    <div class="qq" id="q3"><div class="qlbl">Question 3</div><p class="qt">Le climat de sécurité psychosocial (CSP) est considéré comme la « cause des causes » du stress au travail, car il modère l'impact des risques psychosociaux.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q3',true,true)">VRAI</button><button class="qbtn" onclick="ans('q3',false,true)">FAUX</button></div>
+    <div class="qfb" id="q3-f"></div></div>
+
+    <div class="qq" id="q4"><div class="qlbl">Question 4</div><p class="qt">La prévention secondaire est plus efficace que la primaire pour réduire la détresse psychologique élevée, car ses effets sont plus faciles à mesurer.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q4',true,false)">VRAI</button><button class="qbtn" onclick="ans('q4',false,false)">FAUX</button></div>
+    <div class="qfb" id="q4-f"></div></div>
+
+    <div class="qq" id="q5"><div class="qlbl">Question 5</div><p class="qt">L'approche ACT (Acceptance and Commitment Therapy) vise à changer le contenu des pensées négatives pour les éliminer définitivement.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q5',true,false)">VRAI</button><button class="qbtn" onclick="ans('q5',false,false)">FAUX</button></div>
+    <div class="qfb" id="q5-f"></div></div>
+
+    <div class="qq" id="q6"><div class="qlbl">Question 6</div><p class="qt">Une personne qui fait du présentéisme dysfonctionnel présente à la fois une mauvaise santé et une mauvaise performance au travail.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q6',true,true)">VRAI</button><button class="qbtn" onclick="ans('q6',false,true)">FAUX</button></div>
+    <div class="qfb" id="q6-f"></div></div>
+
+    <div class="qq" id="q7"><div class="qlbl">Question 7</div><p class="qt">Selon les études sur la Norme Entreprise en santé, les interventions sur les habitudes de vie (alimentation, exercice) réduisent significativement la détresse psychologique élevée.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q7',true,false)">VRAI</button><button class="qbtn" onclick="ans('q7',false,false)">FAUX</button></div>
+    <div class="qfb" id="q7-f"></div></div>
+
+    <div class="qq" id="q8"><div class="qlbl">Question 8</div><p class="qt">Dans la démarche de Biron, l'étape 1 est l'identification des problèmes concrets, avant d'évaluer l'ampleur du problème.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q8',true,false)">VRAI</button><button class="qbtn" onclick="ans('q8',false,false)">FAUX</button></div>
+    <div class="qfb" id="q8-f"></div></div>
+
+    <div class="qq" id="q9"><div class="qlbl">Question 9</div><p class="qt">La reconnaissance au travail contribue uniquement à améliorer le bien-être subjectif, sans impact démontré sur la motivation ou la performance.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q9',true,false)">VRAI</button><button class="qbtn" onclick="ans('q9',false,false)">FAUX</button></div>
+    <div class="qfb" id="q9-f"></div></div>
+
+    <div class="qq" id="q10"><div class="qlbl">Question 10</div><p class="qt">Le présentéisme virtuel (télétravailler en étant malade) est positivement associé au télétravail à temps plein — plus le télétravail est intensif, plus le risque de présentéisme augmente.</p>
+    <div class="qbtns"><button class="qbtn" onclick="ans('q10',true,true)">VRAI</button><button class="qbtn" onclick="ans('q10',false,true)">FAUX</button></div>
+    <div class="qfb" id="q10-f"></div></div>
+
+    <div id="qscore" style="display:none;" class="done-banner">
+      <div class="di">🎓</div>
+      <h3 id="qst"></h3>
+      <p>Révisez les sections pour consolider vos connaissances, ou testez-vous avec la simulation de cas.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap"><button class="btn btn-p" onclick="go('sim')">Aller à la simulation →</button></div>
+    </div>
+
+    <div class="navr"><button class="btn btn-s" onclick="go('t7b')">← Télétravail</button><button class="btn btn-p" onclick="go('sim')">Simulation →</button></div>
+  </div>
+</div>
+
+<!-- SIMULATION -->
+<div id="sec-sim" class="sec">
+  <div class="hero"><div class="htag">Simulation interactive</div><h2>Cas pratique — Directrice RH</h2><p>Vous êtes directrice des ressources humaines dans un hôpital régional. Des situations complexes demandent votre jugement.</p></div>
+  <div class="body">
+    <div class="pgbar" id="pgbar">
+      <div class="pgstp" id="ps1"></div><div class="pgstp" id="ps2"></div><div class="pgstp" id="ps3"></div><div class="pgstp" id="ps4"></div>
+      <span class="pglbl" id="pglbl">Étape 1 / 4</span>
+    </div>
+
+    <!-- STEP 1 -->
+    <div class="sc-step active" id="ss1">
+      <div class="sc-ctx"><div class="sc-lbl">Situation 1</div><h4>Un département en crise</h4><p>L'absentéisme dans l'unité de soins intensifs a augmenté de 22% en 6 mois. Lors d'une réunion d'équipe, une infirmière dit : « On gère le double de patients qu'avant, sans ressources supplémentaires. Personne ne nous consulte pour les décisions. » Le gestionnaire de l'unité minimise la situation : « C'est temporaire, ils sont juste fatigués. »</p></div>
+      <p class="sc-q">Selon les modèles vus en cours, quel est le diagnostic le plus complet ?</p>
+      <div class="sc-choices">
+        <button class="sc-ch" onclick="cho(1,'a')">A) Un problème de faible reconnaissance — les infirmières ne se sentent pas appréciées pour leurs efforts.</button>
+        <button class="sc-ch" onclick="cho(1,'b')">B) Job strain (Karasek) : fortes demandes + faible autonomie + faible soutien social = risques documentés sur la santé cardiovasculaire et psychologique.</button>
+        <button class="sc-ch" onclick="cho(1,'c')">C) Un problème de leadership — le gestionnaire adopte un style trop laxiste qui démotive l'équipe.</button>
+      </div>
+      <div class="sc-res" id="r1"></div>
+      <button class="sc-next" id="n1" onclick="nxt(2)">Étape suivante →</button>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="sc-step" id="ss2">
+      <div class="sc-ctx"><div class="sc-lbl">Situation 2</div><h4>Choisir l'intervention</h4><p>La direction vous demande de proposer une initiative. Trois options sont sur la table : (A) Programme de yoga et méditation sur l'heure du dîner. (B) Révision de la charge de travail et création d'un mécanisme de consultation des équipes sur les décisions opérationnelles. (C) Les deux, combinés.</p></div>
+      <p class="sc-q">Selon les données probantes, que recommandez-vous ?</p>
+      <div class="sc-choices">
+        <button class="sc-ch" onclick="cho(2,'a')">A) Le programme de yoga : rapide à implanter et visible pour tout le monde.</button>
+        <button class="sc-ch" onclick="cho(2,'b')">B) La révision des processus de travail uniquement : c'est de la prévention primaire, plus efficace.</button>
+        <button class="sc-ch" onclick="cho(2,'c')">C) Les deux combinés : prévention primaire (processus) + secondaire (ACT/yoga). Les études montrent des effets amplifiés en combinant les niveaux.</button>
+      </div>
+      <div class="sc-res" id="r2"></div>
+      <button class="sc-next" id="n2" onclick="nxt(3)">Étape suivante →</button>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="sc-step" id="ss3">
+      <div class="sc-ctx"><div class="sc-lbl">Situation 3</div><h4>Un signe de détresse ignoré</h4><p>Une collègue administrative vous arrête dans le couloir : « Marc, mon gestionnaire, envoie des courriels jusqu'à 23h depuis 3 semaines. Il était absent vendredi sans explication. Ce matin il a crié lors d'une réunion pour la première fois. Je suis inquiète. »</p></div>
+      <p class="sc-q">Comment réagissez-vous ?</p>
+      <div class="sc-choices">
+        <button class="sc-ch" onclick="cho(3,'a')">A) Remercier la collègue et attendre de voir si la situation se détériore avant d'intervenir.</button>
+        <button class="sc-ch" onclick="cho(3,'b')">B) Parler directement à Marc en privé : nommer les signes observés (comportements, pas la personne), l'écouter activement, lui proposer le PAE et établir des prochaines étapes.</button>
+        <button class="sc-ch" onclick="cho(3,'c')">C) Contacter d'abord le supérieur de Marc pour le mettre en garde sur sa performance.</button>
+      </div>
+      <div class="sc-res" id="r3"></div>
+      <button class="sc-next" id="n3" onclick="nxt(4)">Étape suivante →</button>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="sc-step" id="ss4">
+      <div class="sc-ctx"><div class="sc-lbl">Situation 4</div><h4>Retour au travail</h4><p>Une employée revient après 3 mois d'absence pour épuisement professionnel. Le plan de retour progressif prévoit 3 semaines à temps partiel. Son gestionnaire vous demande : « Est-ce qu'on ne pourrait pas accélérer ? On est déjà à court de ressources. »</p></div>
+      <p class="sc-q">Que lui répondez-vous ?</p>
+      <div class="sc-choices">
+        <button class="sc-ch" onclick="cho(4,'a')">A) Accepter d'accélérer : les besoins organisationnels sont légitimes et l'employée semble motivée.</button>
+        <button class="sc-ch" onclick="cho(4,'b')">B) Expliquer que le retour progressif est de la prévention tertiaire, médicalement et légalement encadrée. Accélérer augmenterait le risque de rechute et d'absentéisme à long terme.</button>
+        <button class="sc-ch" onclick="cho(4,'c')">C) Laisser l'employée décider elle-même du rythme de retour, sans impliquer le gestionnaire ni les RH.</button>
+      </div>
+      <div class="sc-res" id="r4"></div>
+      <button class="sc-next" id="n4" onclick="showDone()">Voir le bilan →</button>
+    </div>
+
+    <!-- DONE -->
+    <div class="sc-step" id="ss-done">
+      <div class="done-banner">
+        <div class="di">✅</div>
+        <h3>Simulation complétée !</h3>
+        <p>Vous avez mobilisé les concepts de quatre thèmes : diagnostic des RPS (Karasek), choix d'intervention (3 niveaux de prévention), détection et dialogue (signes de détresse, recette secrète), et retour au travail (prévention tertiaire).</p>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-p" onclick="openT()">🤖 Poser une question au tuteur IA</button>
+          <button class="btn" style="background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)" onclick="rstSim()">↺ Recommencer</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</main>
+
+<!-- TUTOR BUTTON -->
+<button id="tbtn" onclick="togT()" title="Poser une question au tuteur IA">🤖</button>
+
+<div id="tpanel">
+  <div class="t-hd">
+    <div class="t-av">🎓</div>
+    <div class="t-info"><h4>Tuteur MNG-2360</h4><span>Questions sur la matière du cours</span></div>
+    <button class="t-close" onclick="togT()">✕</button>
+  </div>
+  <div class="t-msgs" id="tmsgs">
+    <div class="tmsg bot">Bonjour ! Je suis votre tuteur pour MNG-2360. Posez-moi des questions sur n'importe quel thème du cours — des modèles du stress aux stratégies préventives, en passant par le présentéisme, la démarche d'intervention ou le rôle du gestionnaire.</div>
+  </div>
+  <div class="t-sugg">
+    <button class="t-sg" onclick="sg(this)">Job strain de Karasek ?</button>
+    <button class="t-sg" onclick="sg(this)">Diff. prévention 1/2/3 ?</button>
+    <button class="t-sg" onclick="sg(this)">CSP en pratique ?</button>
+    <button class="t-sg" onclick="sg(this)">Réseau DIR ?</button>
+    <button class="t-sg" onclick="sg(this)">Présentéisme virtuel ?</button>
+    <button class="t-sg" onclick="sg(this)">Cadre IGLO ?</button>
+  </div>
+  <div class="t-inp">
+    <input type="text" id="tinput" placeholder="Votre question..." onkeypress="if(event.key==='Enter')send()"/>
+    <button class="t-send" id="tsend" onclick="send()">➤</button>
+  </div>
+</div>
+
+<script>
+// NAV
+function go(id){
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sb-a').forEach(a=>a.classList.remove('active'));
+  const el=document.getElementById('sec-'+id);
+  if(el){el.classList.add('active');window.scrollTo(0,0)}
+  document.querySelectorAll('.sb-a').forEach(a=>{
+    if(a.getAttribute('onclick')&&a.getAttribute('onclick').includes("'"+id+"'"))a.classList.add('active');
+  });
+}
+
+// ACCORDION
+function tog(h){
+  const b=h.nextElementSibling,open=h.classList.contains('open');
+  h.closest('.body')||h.closest('.acc-b');
+  const parent=h.closest('.body,.acc-b,.sc-ctx,.card,.done-banner')||document.body;
+  parent.querySelectorAll('.acc-h.open').forEach(x=>{x.classList.remove('open');x.nextElementSibling.classList.remove('open')});
+  if(!open){h.classList.add('open');b.classList.add('open')}
+}
+
+// QUIZ DATA
+const QD={
+  q1:{c:false,ok:"FAUX — C'est précisément la limite de Selye : son modèle postule une réaction universelle et non spécifique, identique pour tous. C'est ce qui a été critiqué par Cox (1985) : les réactions aux stimuli peuvent être très différentes selon la personne et le type de stresseur.",ko:""},
+  q2:{c:false,ok:"FAUX — Un emploi actif (fortes demandes + forte autonomie décisionnelle) favorise la motivation et l'apprentissage. C'est l'emploi à haute tension (fortes demandes + FAIBLE autonomie) qui augmente les risques de détresse et de maladies cardiovasculaires.",ko:""},
+  q3:{c:true,ok:"VRAI — Le CSP est considéré comme la 'cause des causes' (Dollard et al., 2010) car il modère l'impact de tous les autres risques psychosociaux. Un CSP fort protège même dans des environnements à forts risques ; un CSP faible amplifie les effets négatifs.",ko:""},
+  q4:{c:false,ok:"FAUX — C'est l'inverse. La prévention primaire est plus efficace pour réduire la détresse élevée (Biron et al., 2018). La secondaire est plus facile à évaluer méthodologiquement, mais ses effets sont limités et de courte durée. 'The solution is management, not mindfulness.'",ko:""},
+  q5:{c:false,ok:"FAUX — L'ACT ne cherche PAS à changer le contenu des pensées. Elle vise à modifier le CONTEXTE dans lequel ces pensées apparaissent. L'objectif est d'accepter les événements privés désagréables et d'agir selon ses valeurs malgré leur présence — pas de les éliminer.",ko:""},
+  q6:{c:true,ok:"VRAI — Le présentéisme dysfonctionnel se caractérise par une combinaison de mauvaise santé ET mauvaise performance. C'est le profil le plus problématique, signal d'alarme clair pour le gestionnaire (Karanika-Murray & Biron, 2020).",ko:""},
+  q7:{c:false,ok:"FAUX — Les études sur la Norme Entreprise en santé montrent que seules les interventions sur les pratiques de gestion réduisent significativement la détresse élevée (p=.04). Les habitudes de vie, l'environnement physique et la conciliation travail-famille seuls n'ont pas d'effet significatif (p>.40).",ko:""},
+  q8:{c:false,ok:"FAUX — L'étape 1 de la démarche de Biron est la PRÉPARATION (engagement, faisabilité, comité de pilotage, communication). L'évaluation de l'ampleur et l'identification des risques vient en étape 2. L'identification des problèmes concrets est l'étape 3.",ko:""},
+  q9:{c:false,ok:"FAUX — La reconnaissance au travail augmente la motivation de 20% (Gallup, 2017). Elle a aussi un impact documenté sur la loyauté, l'engagement, la performance et la réduction de l'absentéisme et du taux de roulement.",ko:""},
+  q10:{c:true,ok:"VRAI — La probabilité de présentéisme augmente avec l'intensité du télétravail (Steidelmüller et al., 2020). Le télétravail à temps plein accentue la prévalence du présentéisme (Biron et al., 2021), notamment parce que les frontières entre santé et travail sont floues.",ko:""}
+};
+let sc=0,ans_count=0;
+function ans(id,choice,correct){
+  const q=document.getElementById(id),info=QD[id];
+  q.querySelectorAll('.qbtn').forEach(b=>b.disabled=true);
+  const fb=document.getElementById(id+'-f');
+  const isOk=(choice===info.c);
+  q.querySelectorAll('.qbtn').forEach(b=>{
+    if((b.textContent==='VRAI')===choice)b.classList.add(isOk?'ok':'ko');
+    if((b.textContent==='VRAI')===info.c&&!isOk)b.classList.add('ok');
+  });
+  fb.className='qfb '+(isOk?'r':'w');
+  fb.innerHTML='<strong>'+(isOk?'✓ Correct !':'✗ Incorrect.')+'</strong> '+info.ok;
+  fb.style.display='block';
+  if(isOk)sc++;
+  ans_count++;
+  if(ans_count===10){
+    const s=document.getElementById('qscore');
+    document.getElementById('qst').textContent=sc+'/10 bonnes réponses — '+(sc>=9?'Excellent !':sc>=7?'Très bien !':sc>=5?'Bien, quelques révisions à faire.':'Pensez à relire les sections théoriques.');
+    s.style.display='block';
+    setTimeout(()=>s.scrollIntoView({behavior:'smooth',block:'nearest'}),200);
+  }
+}
+
+// SCENARIO
+const SA={
+  1:{a:{t:'ok',txt:'<strong>Partiellement exact.</strong> La faible reconnaissance peut jouer un rôle, mais les signaux dominants ici — charge doublée sans ressources, absence de consultation — correspondent directement au <em>job strain</em> de Karasek. Fortes demandes + faible autonomie + faible soutien = trio de risques documentés.'},
+     b:{t:'good',txt:'<strong>Excellent diagnostic !</strong> Les trois dimensions du modèle Karasek-Johnson sont présentes : demandes élevées (double de patients), faible autonomie (pas de consultation pour les décisions), et faible soutien social (personne n\'écoute). Ce profil est associé à un risque cardiovasculaire 20-40% plus élevé et à un risque de dépression augmenté de 75%.'},
+     c:{t:'bad',txt:'<strong>Inexact.</strong> Le problème identifié n\'est pas un style de gestion trop laxiste — il s\'agit de conditions de travail objectives (surcharge, absence de participation). Le gestionnaire minimise la situation, ce qui aggrave le faible soutien social, mais l\'analyse doit d\'abord pointer les RPS structurels.'}},
+  2:{a:{t:'bad',txt:'<strong>Attention.</strong> Le yoga seul est de la prévention secondaire — il ne touche pas aux sources. Selon Biron et al. (2018), les interventions sur les habitudes de vie et l\'environnement physique seuls ne réduisent pas significativement la détresse élevée. "The solution is management, not mindfulness."'},
+     b:{t:'ok',txt:'<strong>Bonne base.</strong> La révision des processus est de la prévention primaire et la plus efficace. Mais selon Bond et al. (2008), les améliorations sont plus marquées chez les personnes ayant une grande flexibilité psychologique — d\'où l\'intérêt d\'ajouter une composante secondaire.'},
+     c:{t:'good',txt:'<strong>Réponse optimale !</strong> Combiner prévention primaire (processus, autonomie) et secondaire (ACT, pleine conscience) est l\'approche la plus prometteuse. Bond et al. (2008) démontrent que les effets de l\'intervention primaire sont amplifiés chez les personnes ayant développé une flexibilité psychologique. Les revues systématiques (LaMontagne, Montano) convergent vers les interventions combinées.'}},
+  3:{a:{t:'bad',txt:'<strong>À éviter.</strong> Attendre risque de laisser la situation se détériorer. Trois semaines de signaux comportementaux (courriels tardifs, absence, agressivité) dépassent la règle des 2 semaines. Agir rapidement a un impact positif démontré sur l\'intensité et la durée des symptômes.'},
+     b:{t:'good',txt:'<strong>Réponse appropriée.</strong> Vous appliquez la recette secrète : prendre un RDV privé, nommer les comportements observés (signes, pas la personne), écouter activement, proposer le PAE. Important : parler des <em>signes</em> et non de la personne dans sa globalité. Permettre à Marc de jouer un rôle dans la prise d\'action.'},
+     c:{t:'bad',txt:'<strong>Contre-indiqué.</strong> Contacter d\'abord le supérieur peut être perçu comme une trahison par Marc et créer un problème de justice organisationnelle. Cela peut aussi l\'amener à se fermer davantage. La première étape est toujours un dialogue direct avec la personne, dans un espace confidentiel et bienveillant.'}},
+  4:{a:{t:'bad',txt:'<strong>Risqué.</strong> Accélérer un retour progressif contre les recommandations médicales est à la fois légalement problématique (LSST, LATMP) et contre-productif : présentéisme de plus de 5 jours = 1.5× plus de risque d\'absence prolongée dans 2 ans (Bergström et al., 2009). L\'urgence organisationnelle à court terme crée un problème plus grave à long terme.'},
+     b:{t:'good',txt:'<strong>Réponse juste et fondée.</strong> La réintégration progressive est de la prévention tertiaire, encadrée par la LSST et médicalement recommandée. Vous documentez le risque pour l\'organisation (rechute, coûts CNESST, assurance invalidité). L\'urgence de l\'équipe doit être traitée par d\'autres moyens (ressources temporaires, redistribution des tâches).'},
+     c:{t:'bad',txt:'<strong>Incorrect.</strong> Les RH ont un rôle actif dans le processus de réintégration. Laisser l\'employée décider seule sans encadrement professionnel augmente le risque de rechute. La responsabilité partagée (IGLO) implique que l\'organisation (O) et le leader (L) participent à ce processus, dans le respect des recommandations médicales.'}}
+};
+let curStep=1;
+function cho(step,ch){
+  const choices=document.querySelectorAll('#ss'+step+' .sc-ch');
+  const a=SA[step][ch];
+  choices.forEach((b,i)=>{b.disabled=true;if(['a','b','c'][i]===ch)b.classList.add(a.t)});
+  const r=document.getElementById('r'+step);
+  r.className='sc-res show '+a.t;r.innerHTML=a.txt;
+  const n=document.getElementById('n'+step);n.classList.add('show');
+  document.getElementById('ps'+step).classList.add('done');
+  setTimeout(()=>r.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+function nxt(step){
+  document.getElementById('ss'+(step-1)).classList.remove('active');
+  document.getElementById('ss'+step).classList.add('active');
+  document.getElementById('pglbl').textContent='Étape '+step+' / 4';
+  document.getElementById('ss'+step).scrollIntoView({behavior:'smooth',block:'start'});
+}
+function showDone(){
+  document.getElementById('ps4').classList.add('done');
+  document.getElementById('ss4').classList.remove('active');
+  document.getElementById('ss-done').classList.add('active');
+  document.getElementById('ss-done').scrollIntoView({behavior:'smooth'});
+}
+function rstSim(){
+  [1,2,3,4].forEach(i=>{
+    const s=document.getElementById('ss'+i);
+    s.querySelectorAll('.sc-ch').forEach(b=>{b.disabled=false;b.className='sc-ch'});
+    s.querySelectorAll('.sc-res').forEach(r=>{r.className='sc-res';r.innerHTML=''});
+    s.querySelectorAll('.sc-next').forEach(n=>n.classList.remove('show'));
+    s.classList.remove('active');
+    document.getElementById('ps'+i).classList.remove('done');
+  });
+  document.getElementById('ss-done').classList.remove('active');
+  document.getElementById('ss1').classList.add('active');
+  document.getElementById('pglbl').textContent='Étape 1 / 4';
+}
+
+// TUTOR
+const SYS=`Tu es un tuteur pédagogique expert pour le cours MNG-2360 (Santé psychologique au travail). Tu réponds en français, de façon claire et concise (max 180 mots), avec des exemples concrets si pertinent.
+
+CONTENU DU COURS que tu maîtrises :
+
+THÈME 1 — FONDEMENTS : Définitions (santé, bien-être, détresse psychologique, stress, RPS). Loi de Yerkes-Dodson. Approche positive vs prévention. Données épidémiologiques Québec (détresse élevée : 51% en avril 2020, ~44% en 2021-2024, 17% moins de détresse avec CSP fort). Contexte légal : Loi 27 (2021), Projet de loi 42.
+
+THÈME 2 — MODÈLES : Selye (SGA, 3 phases, critiques). Holmes & Rahe (SRRS, DHUS, Kanner 1981). Lazarus & Folkman (évaluation primaire/secondaire, coping). Karasek (demande-latitude-soutien, job strain, Johnson 1989). Siegrist (déséquilibre effort-récompense). JD-R (Bakker & Demerouti 2001, exigences/ressources).
+
+THÈME 3 — RPS : 5 facteurs CNESST (charge de travail, autonomie décisionnelle, reconnaissance, soutien social, justice organisationnelle). Harcèlement (×2 demandes élevées, ×4 faible autonomie). Typologie de la charge (prescrite, réelle, vécue). 3 types d'exigences (quantitative, qualitative, émotionnelle). 6 facteurs de la charge (Brun).
+
+THÈME 4 — RECONNAISSANCE : 4 formes (existentielle, pratique, investissement, résultats) + 7 critères de qualité (Brun & Dugas 2002). +20% motivation (Gallup 2017).
+
+THÈME 5 — CSP : Concept Dollard (2000s). 4 composantes (engagement, priorité, communication, participation). Effet de cascade (Biron et al. 2018). Données : 17% moins de détresse, 2× jours invalidité, 160% coûts avec CSP faible.
+
+THÈME 6 — PRÉVENTION : Primaire (source, Jauvin 11 facteurs), secondaire (individu, ACT-Brinkborg 42% réduction), tertiaire (postvention, PAE, réintégration). "The solution is management, not mindfulness" (Tinline & Cooper 2019). Démarche Biron 5 étapes.
+
+THÈME 7 — GESTIONNAIRE : Cadre IGLO (Nielsen 2017). Norme Entreprise en santé (4 sphères, seules pratiques de gestion réduisent détresse élevée). Styles de leadership (transformationnel, serviteur, LMX, authentique). Santé du gestionnaire. 4R de Salvoni (reconnaître, reprioriser, repartager, récupérer).
+
+THÈME 8 — DÉTRESSE & DIALOGUE : 4 axes de signes (cognitifs, émotionnels, physiques, comportementaux). Règle 2 semaines. Recette secrète (12 étapes). À faire / à éviter. Réseau DIR (Dialoguer, Identifier, Référer - CIUSSS MCQ, Jean-Pierre Brun). Zone d'intervention personne-ressource. Triangle du sauveur.
+
+THÈME 9 — PRÉSENTÉISME : Définitions (école européenne vs nord-américaine). Typologie Karanika-Murray & Biron 2020 (fonctionnel, thérapeutique, excessif, dysfonctionnel). Motifs (individuels, travail, organisationnels, culturels). Coûts (2-3× absentéisme). Présentéisme virtuel. SCMIT (Toderi, 4 dimensions).
+
+THÈME 10 — TÉLÉTRAVAIL : Paradoxe de l'autonomie. Avantages (satisfaction, équilibre). Risques (TMS, isolement, surcharge). Télétravail hybride préférable. Top 5 pratiques gestionnaire. Déconnexion.
+
+Si la question est hors de ces thèmes, indique-le poliment.`;
+
+let tOpen=false,sending=false;
+function togT(){tOpen=!tOpen;const p=document.getElementById('tpanel');if(tOpen){p.classList.add('open');document.getElementById('tinput').focus()}else p.classList.remove('open')}
+function openT(){tOpen=true;document.getElementById('tpanel').classList.add('open');document.getElementById('tinput').focus()}
+function sg(b){document.getElementById('tinput').value=b.textContent;send()}
+async function send(){
+  if(sending)return;
+  const inp=document.getElementById('tinput'),msg=inp.value.trim();
+  if(!msg)return;
+  inp.value='';sending=true;document.getElementById('tsend').disabled=true;
+  const msgs=document.getElementById('tmsgs');
+  const uel=document.createElement('div');uel.className='tmsg user';uel.textContent=msg;msgs.appendChild(uel);msgs.scrollTop=msgs.scrollHeight;
+  const tel=document.createElement('div');tel.className='tmsg typing';tel.innerHTML='<div class="dots"><span></span><span></span><span></span></div>';msgs.appendChild(tel);msgs.scrollTop=msgs.scrollHeight;
+  try{
+    const r=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1000,system:SYS,messages:[{role:'user',content:msg}]})
+    });
+    const d=await r.json();
+    tel.remove();
+    const bel=document.createElement('div');bel.className='tmsg bot';
+    if(d.content&&d.content[0]&&d.content[0].text){bel.textContent=d.content[0].text}
+    else if(d.error){bel.textContent='Erreur : '+d.error.message}
+    else{bel.textContent='Une erreur inattendue est survenue. Réessayez.'}
+    msgs.appendChild(bel);msgs.scrollTop=msgs.scrollHeight;
+  }catch(e){
+    tel.remove();
+    const el=document.createElement('div');el.className='tmsg bot';
+    el.textContent='Erreur de connexion ('+e.message+'). Vérifiez votre réseau et réessayez.';
+    msgs.appendChild(el);msgs.scrollTop=msgs.scrollHeight;
+  }
+  sending=false;document.getElementById('tsend').disabled=false;document.getElementById('tinput').focus();
+}
+go('home');
+</script>
+</body>
+</html>
