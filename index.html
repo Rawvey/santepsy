@@ -221,6 +221,44 @@ p.lede{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;li
 ::-webkit-scrollbar{width:5px}
 ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
 #sb::-webkit-scrollbar-thumb{background:rgba(255,255,255,.12)}
+
+/* EXERCISE STYLES */
+.kq{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:18px 22px;margin-bottom:12px;box-shadow:var(--shadow)}
+.kq-txt{font-size:.93rem;margin-bottom:12px;font-weight:500;line-height:1.55}
+.kq-opts{display:flex;flex-wrap:wrap;gap:8px}
+.kopt{font-family:'DM Sans',sans-serif;font-size:.82rem;padding:7px 14px;border-radius:7px;border:2px solid var(--border);background:white;cursor:pointer;transition:all .16s;font-weight:500}
+.kopt:hover{border-color:var(--accent3);color:var(--accent3)}
+.kopt.sel{border-color:var(--accent);background:rgba(192,90,40,.08);color:var(--accent);font-weight:700}
+.kopt:disabled{opacity:.55;cursor:default}
+.kbar-wrap{margin-bottom:10px}
+.kbar-label{font-family:'DM Sans',sans-serif;font-size:.8rem;display:flex;justify-content:space-between;margin-bottom:4px}
+.kbar-track{height:10px;background:var(--bg2);border-radius:6px;overflow:hidden}
+.kbar-fill{height:100%;border-radius:6px;transition:width .6s ease}
+
+/* PREVENTION CLASSIFIER */
+.ex3-item{background:var(--card);border:2px solid var(--border);border-radius:11px;padding:16px 20px;margin-bottom:11px;transition:all .22s}
+.ex3-item.correct{border-color:#3a7a5a;background:rgba(58,122,90,.05)}
+.ex3-item.wrong{border-color:#b03a2e;background:rgba(176,58,46,.04)}
+.ex3-q{font-size:.9rem;font-weight:500;margin-bottom:11px;line-height:1.5}
+.ex3-btns{display:flex;gap:8px;flex-wrap:wrap}
+.ex3-btn{font-family:'DM Sans',sans-serif;font-size:.79rem;font-weight:700;padding:6px 14px;border-radius:20px;border:2px solid;cursor:pointer;transition:all .17s;letter-spacing:.4px}
+.ex3-btn.pri{border-color:var(--accent);color:var(--accent);background:transparent}
+.ex3-btn.pri:hover,.ex3-btn.pri.sel{background:var(--accent);color:white}
+.ex3-btn.sec{border-color:var(--accent3);color:var(--accent3);background:transparent}
+.ex3-btn.sec:hover,.ex3-btn.sec.sel{background:var(--accent3);color:white}
+.ex3-btn.ter{border-color:var(--accent2);color:var(--accent2);background:transparent}
+.ex3-btn.ter:hover,.ex3-btn.ter.sel{background:var(--accent2);color:white}
+.ex3-fb{font-family:'DM Sans',sans-serif;font-size:.81rem;margin-top:9px;padding:8px 12px;border-radius:7px;display:none;line-height:1.55}
+.ex3-fb.show{display:block}
+.ex3-fb.ok{background:rgba(58,122,90,.09);color:#1a4a30}
+.ex3-fb.no{background:rgba(176,58,46,.07);color:#6a1a14}
+
+/* Paul checkboxes */
+.paul-chk{display:flex;align-items:flex-start;gap:10px;background:var(--card);border:2px solid var(--border);border-radius:9px;padding:12px 16px;cursor:pointer;font-family:'DM Sans',sans-serif;font-size:.87rem;line-height:1.45;transition:border-color .16s}
+.paul-chk:hover{border-color:var(--accent3)}
+.paul-chk input{margin-top:2px;accent-color:var(--accent);width:16px;height:16px;flex-shrink:0}
+.paul-chk.correct{border-color:#3a7a5a;background:rgba(58,122,90,.05)}
+.paul-chk.wrong{border-color:#b03a2e;background:rgba(176,58,46,.04)}
 </style>
 </head>
 <body>
@@ -267,6 +305,13 @@ p.lede{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;li
   <a class="sb-a" onclick="go('quiz')"><span class="ico">✎</span>Quiz interactif</a>
   <a class="sb-a" onclick="go('sim')"><span class="ico">▶</span>Simulation de cas</a>
   <a class="sb-a" onclick="openT()"><span class="ico">🤖</span>Tuteur IA</a>
+
+  <div class="sb-div"></div>
+  <div class="sb-cat">Exercices de séance</div>
+  <a class="sb-a" onclick="go('ex2')"><span class="ico">②</span>Auto-évaluation Karasek</a>
+  <a class="sb-a" onclick="go('ex3')"><span class="ico">③</span>Classer les interventions</a>
+  <a class="sb-a" onclick="go('ex4a')"><span class="ico">④</span>Cas de Paul</a>
+  <a class="sb-a" onclick="go('ex4b')"><span class="ico">④</span>Cas de Molly</a>
 </nav>
 
 <main id="main">
@@ -289,10 +334,11 @@ p.lede{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;li
       <div class="wcard t6" onclick="go('t6a')"><div class="wbadge wb3">Action</div><div class="wi">💬</div><h3>Détecter &amp; agir</h3><p>Signes de détresse, ouvrir le dialogue, réseau DIR (Dialoguer, Identifier, Référer).</p></div>
       <div class="wcard t7" onclick="go('t7a')"><div class="wbadge wb4">Contemporain</div><div class="wi">💻</div><h3>Enjeux contemporains</h3><p>Présentéisme, télétravail hybride, charge de travail et les 4 R.</p></div>
       <div class="wcard t4" onclick="go('quiz')" style="cursor:pointer"><div class="wbadge wb4">Interactif</div><div class="wi">✅</div><h3>Quiz &amp; Simulation</h3><p>Testez vos connaissances sur tous les thèmes et jouez un scénario gestionnaire RH.</p></div>
+      <div class="wcard t6" onclick="go('ex2')" style="cursor:pointer"><div class="wbadge wb3">Exercices</div><div class="wi">🎯</div><h3>Exercices de séance</h3><p>Auto-évaluation Karasek, classification des niveaux de prévention, cas de Paul et cas de Molly.</p></div>
     </div>
     <div class="stats">
       <div class="stat"><div class="n">7</div><div class="l">thèmes couverts</div></div>
-      <div class="stat"><div class="n">10+</div><div class="l">quiz vrai/faux</div></div>
+      <div class="stat"><div class="n">4</div><div class="l">exercices de séance interactifs</div></div>
       <div class="stat"><div class="n">∞</div><div class="l">questions au tuteur IA</div></div>
     </div>
   </div>
@@ -1378,6 +1424,414 @@ p.lede{font-size:1rem;color:var(--muted);font-style:italic;margin-bottom:24px;li
   </div>
 </div>
 
+
+<!-- ============================================================
+     EXERCICES
+     ============================================================ -->
+
+<!-- EX2 — AUTO-ÉVALUATION KARASEK -->
+<div id="sec-ex2" class="sec">
+  <div class="hero">
+    <div class="htag">Exercice — Séance 2</div>
+    <h2>Auto-évaluation : modèle demande-latitude-soutien</h2>
+    <p>Questionnaire inspiré de Karasek & Theorell. Évaluez votre propre situation de travail (ou étudiante) et identifiez les limites de cet outil de mesure.</p>
+  </div>
+  <div class="body">
+    <div class="card ca" style="margin-bottom:22px">
+      <h4>Consigne</h4>
+      <p>Répondez aux questions en pensant à votre emploi actuel. Si vous n'êtes pas en emploi, prenez votre statut d'étudiant·e comme cadre de référence. À la fin, vous obtiendrez votre profil Karasek et des questions de réflexion sur les limites du questionnaire.</p>
+    </div>
+
+    <h3 class="sh">A — Demandes psychologiques</h3>
+    <div id="kq-block">
+
+    <div class="kq" id="kq1">
+      <p class="kq-txt">1. Mon travail exige que je travaille très vite.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(1,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(1,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(1,3)">D'accord</button>
+        <button class="kopt" onclick="kans(1,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq2">
+      <p class="kq-txt">2. Mon travail exige que je travaille très intensément.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(2,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(2,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(2,3)">D'accord</button>
+        <button class="kopt" onclick="kans(2,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq3">
+      <p class="kq-txt">3. On me demande d'effectuer une quantité excessive de travail.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(3,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(3,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(3,3)">D'accord</button>
+        <button class="kopt" onclick="kans(3,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq4">
+      <p class="kq-txt">4. Je dispose du temps suffisant pour accomplir tout mon travail.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(4,4)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(4,3)">En désaccord</button>
+        <button class="kopt" onclick="kans(4,2)">D'accord</button>
+        <button class="kopt" onclick="kans(4,1)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <h3 class="sh">B — Latitude décisionnelle</h3>
+
+    <div class="kq" id="kq5">
+      <p class="kq-txt">5. J'ai le choix de décider comment je fais mon travail.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(5,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(5,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(5,3)">D'accord</button>
+        <button class="kopt" onclick="kans(5,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq6">
+      <p class="kq-txt">6. Mon travail me permet de prendre des décisions de façon autonome.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(6,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(6,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(6,3)">D'accord</button>
+        <button class="kopt" onclick="kans(6,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq7">
+      <p class="kq-txt">7. Mon travail me permet de développer mes habiletés et d'en apprendre de nouvelles.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(7,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(7,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(7,3)">D'accord</button>
+        <button class="kopt" onclick="kans(7,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq8">
+      <p class="kq-txt">8. Je dois faire les mêmes choses encore et encore (tâches répétitives).</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(8,4)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(8,3)">En désaccord</button>
+        <button class="kopt" onclick="kans(8,2)">D'accord</button>
+        <button class="kopt" onclick="kans(8,1)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <h3 class="sh">C — Soutien social</h3>
+
+    <div class="kq" id="kq9">
+      <p class="kq-txt">9. Mon supérieur se soucie de mon bien-être.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(9,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(9,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(9,3)">D'accord</button>
+        <button class="kopt" onclick="kans(9,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq10">
+      <p class="kq-txt">10. Mes collègues m'aident à accomplir mon travail.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(10,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(10,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(10,3)">D'accord</button>
+        <button class="kopt" onclick="kans(10,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    <div class="kq" id="kq11">
+      <p class="kq-txt">11. Je me sens intégré·e dans mon équipe de travail.</p>
+      <div class="kq-opts">
+        <button class="kopt" onclick="kans(11,1)">Fortement en désaccord</button>
+        <button class="kopt" onclick="kans(11,2)">En désaccord</button>
+        <button class="kopt" onclick="kans(11,3)">D'accord</button>
+        <button class="kopt" onclick="kans(11,4)">Fortement d'accord</button>
+      </div>
+    </div>
+
+    </div><!-- end kq-block -->
+
+    <div id="kresult" style="display:none">
+      <h3 class="sh">Votre profil Karasek</h3>
+      <div id="kprofile-card" class="card" style="margin-bottom:20px"></div>
+
+      <div class="card ca2" style="margin-bottom:20px">
+        <h4>📊 Vos scores détaillés</h4>
+        <div id="kscores"></div>
+        <div id="kbars" style="margin-top:14px"></div>
+      </div>
+
+      <h3 class="sh">Questions de réflexion — Limites du questionnaire</h3>
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Réflexion 1 — Ce questionnaire s'applique-t-il bien à votre situation?</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b"><p>Pensez aux aspects de votre travail (ou vie étudiante) qui ne sont pas captés par ces questions. Y a-t-il des dimensions importantes qui manquent ? Le questionnaire vous semble-t-il trop générique, trop simplifié, ou au contraire pertinent ?</p>
+      <p style="margin-top:10px"><strong>Limites connues :</strong> Le modèle de Karasek mesure des moyennes — il ne capte pas les fluctuations temporelles (surcharge saisonnière), les différences interindividuelles dans la perception du stress, ni les conflits de rôle ou l'ambiguïté. Il s'applique mieux aux emplois standardisés qu'aux professions à grande variabilité (ex. : professeurs, gestionnaires, artistes).</p></div></div>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Réflexion 2 — Que manque-t-il au modèle demande-latitude-soutien?</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b"><p>Le modèle de Karasek ne tient pas compte de la <strong>reconnaissance</strong> (Siegrist, 1996), ni des <strong>exigences émotionnelles</strong> (contact avec des clients difficiles, situations traumatisantes), ni de la <strong>justice organisationnelle</strong>. Siegrist a montré que le déséquilibre effort-récompense est un prédicteur indépendant des maladies cardiovasculaires, même en contrôlant pour le job strain.</p>
+      <p style="margin-top:10px">Le modèle JD-R (Bakker & Demerouti, 2001) propose justement une solution : au lieu de dimensions fixes, il identifie les <em>exigences</em> et <em>ressources</em> spécifiques à chaque métier.</p></div></div>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>Réflexion 3 — L'auto-évaluation comme outil de sensibilisation</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b"><p>Dans un contexte organisationnel, ce genre de questionnaire est souvent utilisé en version collective et anonymisée pour identifier les unités ou équipes à risque. L'usage individuel sert davantage à la <strong>sensibilisation</strong> qu'au diagnostic. Le score individuel peut varier selon l'humeur du moment, le biais de désirabilité sociale, la compréhension des items, etc.</p>
+      <p style="margin-top:10px"><strong>Biais fréquents :</strong> tendance à sous-évaluer la charge (normativité « je ne veux pas me plaindre »), surévaluer le soutien des collègues, et sous-évaluer les exigences émotionnelles dans les professions d'aide.</p></div></div>
+
+      <div class="navr">
+        <button class="btn btn-s" onclick="rstKarasek()">↺ Recommencer</button>
+        <button class="btn btn-p" onclick="go('ex3')">Exercice suivant →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EX3 — CLASSIFICATION PRÉVENTION -->
+<div id="sec-ex3" class="sec">
+  <div class="hero">
+    <div class="htag">Exercice — Séance 3</div>
+    <h2>Classifier les interventions</h2>
+    <p>15 interventions tirées des séances du cours. Cliquez sur chaque item pour indiquer s'il s'agit de prévention primaire, secondaire ou tertiaire.</p>
+  </div>
+  <div class="body">
+
+    <div class="card ca" style="margin-bottom:22px">
+      <h4>Rappel — Les 3 niveaux de prévention</h4>
+      <p><strong>Primaire :</strong> agit sur la SOURCE du stress — modifie l'environnement de travail avant que les problèmes n'apparaissent.</p>
+      <p style="margin-top:6px"><strong>Secondaire :</strong> agit sur l'INDIVIDU — renforce les ressources pour mieux faire face aux stresseurs déjà présents.</p>
+      <p style="margin-top:6px"><strong>Tertiaire :</strong> agit sur la RÉPARATION — aide les personnes déjà atteintes à se rétablir et à réintégrer le travail.</p>
+    </div>
+
+    <div id="ex3-score-bar" style="display:flex;align-items:center;gap:14px;margin-bottom:20px;font-family:'DM Sans',sans-serif;font-size:.85rem;color:var(--muted)">
+      <span id="ex3-count">0 / 15 classifiés</span>
+      <span id="ex3-correct" style="color:var(--accent2);font-weight:700;display:none"></span>
+    </div>
+
+    <div id="ex3-items"></div>
+
+    <div id="ex3-done" style="display:none;margin-top:10px">
+      <div class="done-banner">
+        <div class="di">🎯</div>
+        <h3>Résultats</h3>
+        <p id="ex3-result-txt"></p>
+        <div class="navr">
+          <button class="btn" style="background:rgba(255,255,255,.15);color:white;border:1px solid rgba(255,255,255,.3)" onclick="rstEx3()">↺ Recommencer</button>
+          <button class="btn btn-p" onclick="go('ex4a')">Cas de Paul →</button>
+        </div>
+      </div>
+
+      <h3 class="sh" style="margin-top:28px">Pourquoi certains cas sont ambigus?</h3>
+      <div class="card ca3">
+        <h4>La frontière primaire/secondaire est souvent floue</h4>
+        <p>Une formation sur la gestion du stress peut être <strong>secondaire</strong> (renforce les ressources individuelles) ou <strong>primaire</strong> (si elle vise à changer les pratiques de gestion qui créent le stress). Tout dépend de la cible : l'individu ou l'organisation.</p>
+        <p style="margin-top:8px">Exemple : former les gestionnaires à mieux gérer les personnes = <strong>primaire</strong> (on réduit un stresseur à la source). Former les employés à mieux gérer leurs émotions face à un gestionnaire difficile = <strong>secondaire</strong> (on renforce la capacité individuelle sans toucher à la source).</p>
+      </div>
+      <div class="card ca2" style="margin-top:14px">
+        <h4>Règle empirique de Jauvin (2014)</h4>
+        <p>Les interventions primaires ont des effets plus durables et plus larges mais sont plus difficiles à implanter (nécessitent l'engagement de la direction). Les interventions secondaires sont plus faciles à mettre en œuvre et à évaluer, mais leurs effets sont limités et de courte durée. La prévention tertiaire est souvent la plus utilisée mais la moins efficiente au plan coût-bénéfice.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EX4A — CAS DE PAUL -->
+<div id="sec-ex4a" class="sec">
+  <div class="hero">
+    <div class="htag">Exercice — Séance 4A</div>
+    <h2>Cas de Paul</h2>
+    <p>Analyse d'un cas concret de risques psychosociaux. Identifiez les facteurs de risque et proposez des stratégies d'intervention à trois niveaux.</p>
+  </div>
+  <div class="body">
+
+    <div class="sc-intro">
+      <div class="sc-lbl">Mise en situation</div>
+      <h3>Paul, assistant de recherche</h3>
+      <p>Paul est étudiant au baccalauréat et travaille comme assistant de recherche pour le professeur Raymond. Il aime son travail et trouve ses tâches — principalement réaliser des entrevues avec des dirigeants — intéressantes et stimulantes.</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,.72)">Depuis quelques temps, Raymond est de plus en plus absent. Un deuxième patron, Marc, lui confie maintenant des photocopies, des tâches cléricales, la supervision d'autres étudiants (tous au même niveau que lui) et la coordination de l'équipe. Paul n'a ni la crédibilité ni l'autorité pour superviser ses pairs — qui le ridiculisent, le méprisent et parlent en mal de lui.</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,.72)">Résultat : Paul ne sait plus où donner de la tête. Il a oublié son enregistreuse avant une entrevue importante, est arrivé sans préparation, avec un gilet taché. Il se sent coupable, irritable, pas à la hauteur. Il oublie de plus en plus de choses.</p>
+    </div>
+
+    <h3 class="sh">Question 1 — Quels risques psychosociaux identifiez-vous?</h3>
+    <p style="font-size:.9rem;color:var(--muted);margin-bottom:16px">Sélectionnez tous les RPS qui vous semblent présents dans la situation de Paul :</p>
+
+    <div id="paul-rps-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">
+      <label class="paul-chk" id="pc1"><input type="checkbox" onchange="updatePaulQ1()"> Surcharge quantitative de travail</label>
+      <label class="paul-chk" id="pc2"><input type="checkbox" onchange="updatePaulQ1()"> Surcharge qualitative (tâches hors compétences)</label>
+      <label class="paul-chk" id="pc3"><input type="checkbox" onchange="updatePaulQ1()"> Conflit de rôle (2 patrons aux exigences contraires)</label>
+      <label class="paul-chk" id="pc4"><input type="checkbox" onchange="updatePaulQ1()"> Ambiguïté de rôle (priorités floues)</label>
+      <label class="paul-chk" id="pc5"><input type="checkbox" onchange="updatePaulQ1()"> Faible latitude décisionnelle</label>
+      <label class="paul-chk" id="pc6"><input type="checkbox" onchange="updatePaulQ1()"> Manque de reconnaissance / harcèlement des collègues</label>
+      <label class="paul-chk" id="pc7"><input type="checkbox" onchange="updatePaulQ1()"> Faible soutien social (Raymond absent, Marc peu présent)</label>
+      <label class="paul-chk" id="pc8"><input type="checkbox" onchange="updatePaulQ1()"> Gestion du changement inadéquate (nouveau patron, nouvelles tâches)</label>
+      <label class="paul-chk" id="pc9"><input type="checkbox" onchange="updatePaulQ1()"> Forte charge physique / conditions de travail difficiles</label>
+      <label class="paul-chk" id="pc10"><input type="checkbox" onchange="updatePaulQ1()"> Insécurité d'emploi</label>
+    </div>
+
+    <div id="paul-q1-fb" style="display:none" class="hl"><p id="paul-q1-fb-txt"></p></div>
+    <button id="paul-q1-btn" class="btn btn-p" onclick="checkPaulQ1()" style="margin-bottom:28px">Vérifier ma sélection</button>
+
+    <h3 class="sh">Question 2 — Quel modèle utilisez-vous pour analyser cette situation?</h3>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:20px">
+      <button class="sc-ch" id="pm1" onclick="paulModel(1)">A. Modèle de Selye — Syndrome Général d'Adaptation</button>
+      <button class="sc-ch" id="pm2" onclick="paulModel(2)">B. Modèle de Karasek — Demande-Latitude-Soutien</button>
+      <button class="sc-ch" id="pm3" onclick="paulModel(3)">C. Modèle de Lazarus & Folkman — Évaluation cognitive</button>
+      <button class="sc-ch" id="pm4" onclick="paulModel(4)">D. Modèle JD-R (Bakker & Demerouti, 2001)</button>
+    </div>
+    <div id="paul-model-fb" style="display:none" class="sc-res" style="margin-bottom:20px"></div>
+
+    <h3 class="sh" style="margin-top:24px">Question 3 — Proposez des interventions à 3 niveaux</h3>
+    <div class="g3" style="margin-bottom:14px">
+      <div class="card ca">
+        <h4>🔴 Primaire</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Agit sur la source — modifier l'environnement</p>
+        <textarea id="paul-pri" placeholder="Ex. : Former les patrons à la coordination des rôles, clarifier les attentes..." style="width:100%;margin-top:10px;border:1px solid var(--border);border-radius:7px;padding:9px;font-family:'DM Sans',sans-serif;font-size:.83rem;min-height:90px;resize:vertical;background:#f9f7f3"></textarea>
+      </div>
+      <div class="card ca2">
+        <h4>🟡 Secondaire</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Renforcer les ressources individuelles</p>
+        <textarea id="paul-sec" placeholder="Ex. : Formation à l'affirmation de soi, gestion du temps..." style="width:100%;margin-top:10px;border:1px solid var(--border);border-radius:7px;padding:9px;font-family:'DM Sans',sans-serif;font-size:.83rem;min-height:90px;resize:vertical;background:#f9f7f3"></textarea>
+      </div>
+      <div class="card ca3">
+        <h4>🔵 Tertiaire</h4>
+        <p style="font-size:.82rem;color:var(--muted)">Aider la personne déjà affectée</p>
+        <textarea id="paul-ter" placeholder="Ex. : Référer Paul au PAE, soutien psychologique..." style="width:100%;margin-top:10px;border:1px solid var(--border);border-radius:7px;padding:9px;font-family:'DM Sans',sans-serif;font-size:.83rem;min-height:90px;resize:vertical;background:#f9f7f3"></textarea>
+      </div>
+    </div>
+
+    <button class="btn btn-p" onclick="checkPaulQ3()" style="margin-bottom:24px">Comparer au corrigé</button>
+
+    <div id="paul-corrige" style="display:none">
+      <h3 class="sh">Corrigé complet</h3>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>✅ RPS identifiés — Analyse détaillée</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b">
+        <p><strong>Conflit de rôle :</strong> deux patrons aux exigences contradictoires — la situation classique d'injonctions paradoxales.</p>
+        <p style="margin-top:8px"><strong>Surcharge quantitative :</strong> Paul doit cumuler ses tâches originales (entrevues + rapports) avec toutes les nouvelles tâches de Marc.</p>
+        <p style="margin-top:8px"><strong>Surcharge qualitative :</strong> les tâches de supervision dépassent ses compétences actuelles — il n'a ni l'autorité ni l'expérience.</p>
+        <p style="margin-top:8px"><strong>Ambiguïté de rôle :</strong> Paul ne sait plus quelle est sa priorité, qui est son « vrai » patron, ni quelles sont les attentes réelles.</p>
+        <p style="margin-top:8px"><strong>Faible soutien social :</strong> Raymond s'absente, Marc est peu aidant, les collègues sont hostiles.</p>
+        <p style="margin-top:8px"><strong>Manque de reconnaissance / harcèlement :</strong> les pairs le ridiculisent et le méprisent — possible harcèlement psychologique.</p>
+        <p style="margin-top:8px"><strong>Gestion du changement :</strong> le passage de Raymond à Marc n'a pas été géré — pas d'intégration, pas de clarification des rôles.</p>
+        <p style="margin-top:8px">⚠️ Les réponses <em>forte charge physique</em> et <em>insécurité d'emploi</em> ne sont pas documentées dans le cas — à éviter dans une analyse rigoureuse.</p>
+      </div></div>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>✅ Stratégies — Prévention primaire</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b">
+        <ul>
+          <li>Former Raymond et Marc à la coordination managériale pour éviter les injonctions contradictoires</li>
+          <li>Clarifier les attentes et les rôles de Paul via des rencontres individuelles et d'équipe</li>
+          <li>Revoir et mieux répartir la charge de travail entre les membres de l'équipe</li>
+          <li>Repositionner formellement le rôle de supervision de Paul avec l'autorité nécessaire (ou le supprimer)</li>
+          <li>Former Paul à la gestion des personnes pour diminuer sa surcharge qualitative</li>
+        </ul>
+        <p style="margin-top:10px;font-style:italic">Ces interventions agissent à la SOURCE en modifiant l'organisation du travail et les comportements des gestionnaires.</p>
+      </div></div>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>✅ Stratégies — Prévention secondaire</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b">
+        <ul>
+          <li>Formation à Paul sur l'affirmation de soi et la gestion des conflits</li>
+          <li>Formation aux collègues sur le respect et les comportements professionnels</li>
+          <li>Atelier sur la gestion du stress et des priorités (si Paul en fait la demande)</li>
+        </ul>
+        <p style="margin-top:10px;font-style:italic">⚠️ Ces interventions sont utiles mais insuffisantes : elles n'éliminent pas les stresseurs à la source.</p>
+      </div></div>
+
+      <div class="acc"><div class="acc-h" onclick="tog(this)"><span>✅ Stratégies — Prévention tertiaire</span><span class="acc-arr">▼</span></div>
+      <div class="acc-b">
+        <ul>
+          <li>Référer Paul au Programme d'aide aux employés (PAE) ou à une ressource en santé psychologique</li>
+          <li>Mise en place d'un plan de retour au travail si Paul devait s'absenter</li>
+        </ul>
+        <p style="margin-top:10px;font-style:italic">Paul manifeste déjà des signes de détresse (irritabilité, oublis, sentiment de ne pas être à la hauteur). La prévention tertiaire est appropriée à titre d'accompagnement, mais ne doit pas remplacer les interventions primaires.</p>
+      </div></div>
+
+      <div class="navr">
+        <button class="btn btn-p" onclick="go('ex4b')">Cas de Molly →</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- EX4B — CAS DE MOLLY -->
+<div id="sec-ex4b" class="sec">
+  <div class="hero">
+    <div class="htag">Exercice — Séance 4B</div>
+    <h2>Cas de Molly</h2>
+    <p>Une analyse multi-modèles d'une situation de détresse progressive. Que ferait Lazarus &amp; Folkman, Karasek, ou Siegrist ?</p>
+  </div>
+  <div class="body">
+
+    <div class="sc-intro">
+      <div class="sc-lbl">Mise en situation</div>
+      <h3>Molly, comptable en devenir</h3>
+      <p>Molly travaille dans un cabinet d'expertise comptable tout en étudiant pour devenir comptable. Elle aime la variété de son travail et se sent en constante évolution.</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,.72)">Il y a quelques mois, elle est passée dans un nouveau département avec Keith comme patron. Keith est capricieux — elle ne sait jamais quand il va lui crier après. Il ne lui donne aucune responsabilité ni marge de manœuvre, n'est jamais satisfait, mais ne traite pas les autres membres de l'équipe de la même façon. Molly ne se sent pas intégrée à l'équipe — son travail est séparé des autres. Elle gère ses examens professionnels en plus de son emploi à temps plein.</p>
+      <p style="margin-top:10px;color:rgba(255,255,255,.72)"><strong>2 mois plus tard :</strong> Molly est en arrêt de travail pour épuisement. Elle n'arrivait plus à dormir, se sentait si mal. Son médecin a recommandé l'arrêt. Keith, lui, estime que « le stress est une chose personnelle » et qu'il n'avait rien à faire dans cette situation.</p>
+    </div>
+
+    <h3 class="sh">Question 1 — Les sources de stress selon Karasek</h3>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+      <button class="sc-ch" id="mk1a" onclick="mollyKarasek('a')">A. Fortes demandes + forte latitude + faible soutien → emploi actif avec isolement social</button>
+      <button class="sc-ch" id="mk1b" onclick="mollyKarasek('b')">B. Fortes demandes + faible latitude + faible soutien → job strain isolé (zone la plus à risque)</button>
+      <button class="sc-ch" id="mk1c" onclick="mollyKarasek('c')">C. Faibles demandes + faible latitude + faible soutien → emploi passif</button>
+    </div>
+    <div id="molly-k-fb" class="sc-res" style="margin-bottom:22px"></div>
+
+    <h3 class="sh">Question 2 — L'analyse de Siegrist</h3>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+      <button class="sc-ch" id="ms2a" onclick="mollySiegrist('a')">A. Molly vit un effort élevé mais la récompense est correcte — le problème est ailleurs</button>
+      <button class="sc-ch" id="ms2b" onclick="mollySiegrist('b')">B. Molly vit un déséquilibre effort-reconnaissance : elle investit beaucoup sans être estimée ni traitée équitablement</button>
+      <button class="sc-ch" id="ms2c" onclick="mollySiegrist('c')">C. Le modèle de Siegrist ne s'applique pas car Molly est étudiante en même temps</button>
+    </div>
+    <div id="molly-s-fb" class="sc-res" style="margin-bottom:22px"></div>
+
+    <h3 class="sh">Question 3 — Que ferait Lazarus &amp; Folkman pour aider Molly?</h3>
+    <div style="display:flex;flex-direction:column;gap:9px;margin-bottom:20px">
+      <button class="sc-ch" id="ml3a" onclick="mollyLazarus('a')">A. L'aider à changer son évaluation primaire : la situation est moins grave qu'elle le pense</button>
+      <button class="sc-ch" id="ml3b" onclick="mollyLazarus('b')">B. Développer son coping — centré sur le problème (approcher les RH), sur l'émotion (réguler ses réactions) et sur le soutien social (chercher de l'aide)</button>
+      <button class="sc-ch" id="ml3c" onclick="mollyLazarus('c')">C. Modifier les stresseurs objectifs : changer le comportement de Keith</button>
+    </div>
+    <div id="molly-l-fb" class="sc-res" style="margin-bottom:22px"></div>
+
+    <h3 class="sh">Question 4 — Que devrait faire Keith selon le rôle du gestionnaire?</h3>
+    <div class="card ca3" style="margin-bottom:20px">
+      <h4>Réfléchissez avant de voir le corrigé</h4>
+      <p>Keith croit que le stress est « une chose personnelle » et qu'il n'avait rien à y faire. En vous basant sur ce que vous savez du rôle du gestionnaire (cadre IGLO, HSE Management Standards), que lui répondriez-vous ?</p>
+      <textarea id="molly-keith-ans" placeholder="Votre réponse ici..." style="width:100%;margin-top:10px;border:1px solid var(--border);border-radius:7px;padding:9px;font-family:'DM Sans',sans-serif;font-size:.83rem;min-height:100px;resize:vertical;background:#f9f7f3"></textarea>
+      <button class="btn btn-p" style="margin-top:12px" onclick="showMollyKeith()">Voir le corrigé</button>
+    </div>
+
+    <div id="molly-keith-corrige" style="display:none" class="card ca2">
+      <h4>Ce que devait faire Keith</h4>
+      <p><strong>Keith a tort.</strong> La recherche montre de façon robuste que les gestionnaires de premier niveau sont un facteur de risque <em>ou</em> de protection majeur pour la santé psychologique de leurs employés (HSE Management Standards, 2009).</p>
+      <p style="margin-top:8px">Keith aurait pu :</p>
+      <ul style="padding-left:18px;margin-top:6px;font-size:.9rem">
+        <li>Gérer le changement de département de Molly (activité d'accueil, intégration à l'équipe)</li>
+        <li>Clarifier ses attentes et définir des rôles précis</li>
+        <li>Donner à Molly de la latitude décisionnelle et la valoriser</li>
+        <li>Tenir des rencontres régulières pour ajuster la charge de travail</li>
+        <li>Faciliter la conciliation travail-études (ex. : journée libérée avant les examens)</li>
+      </ul>
+      <p style="margin-top:10px;font-style:italic">L'intervention des RH (former Keith, lui faire prendre conscience de son impact) est une <strong>stratégie primaire</strong> — on agit sur la source du problème en modifiant les comportements managériaux, pas seulement en aidant Molly à « tenir le coup ».</p>
+    </div>
+
+    <div class="navr" style="margin-top:24px">
+      <button class="btn btn-s" onclick="go('ex4a')">← Cas de Paul</button>
+      <button class="btn btn-p" onclick="go('t4a')">Revoir la prévention →</button>
+    </div>
+
+  </div>
+</div>
+
 </main>
 
 <!-- TUTOR BUTTON -->
@@ -1576,6 +2030,226 @@ async function send(){
   sending=false;document.getElementById('tsend').disabled=false;document.getElementById('tinput').focus();
 }
 go('home');
+
+// ============================================================
+// EXERCICE 2 — KARASEK AUTO-ÉVALUATION
+// ============================================================
+const KA={};
+const KQ_TOTAL=11;
+function kans(q,v){
+  KA[q]=v;
+  const el=document.getElementById('kq'+q);
+  el.querySelectorAll('.kopt').forEach(b=>{
+    b.disabled=true;
+    b.classList.remove('sel');
+    // detect which button corresponds to this value via onclick attribute
+    const oc=b.getAttribute('onclick');
+    if(oc===`kans(${q},${v})`) b.classList.add('sel');
+  });
+  document.getElementById('ex3-count')||null; // no-op
+  if(Object.keys(KA).length===KQ_TOTAL) showKResult();
+}
+
+function showKResult(){
+  const dem=(KA[1]||0)+(KA[2]||0)+(KA[3]||0)+(KA[4]||0);
+  const lat=(KA[5]||0)+(KA[6]||0)+(KA[7]||0)+(KA[8]||0);
+  const sou=(KA[9]||0)+(KA[10]||0)+(KA[11]||0);
+  // thresholds: each dim out of 16 (4 items×4) or 12 (3 items×4)
+  const demHigh=dem>=10;const latHigh=lat>=10;const souHigh=sou>=8;
+  let profile,color,desc;
+  if(demHigh&&latHigh){profile='Emploi actif';color='var(--accent2)';desc='Fortes demandes + forte latitude. Situation motivante et stimulante, favorable à l\'apprentissage. Risque limité si le soutien est présent.';}
+  else if(demHigh&&!latHigh){profile='Job strain (tension élevée)';color='#b03a2e';desc='Fortes demandes + faible latitude. Zone de risque maximale selon Karasek : probabilité accrue de détresse, maladies cardiovasculaires et épuisement.';}
+  else if(!demHigh&&latHigh){profile='Emploi passif';color='var(--accent3)';desc='Faibles demandes + forte latitude. Risque de désengagement et de perte de compétences à long terme, mais peu de risque de stress aigu.';}
+  else{profile='Emploi passif (faibles demandes)';color='var(--muted)';desc='Faibles demandes + faible latitude. Peut mener au désengagement. Moins de risque de surcharge mais peu de stimulation.';}
+  if(!souHigh) desc+=' ⚠️ Le faible soutien social amplifie les risques (effet iso-strain de Johnson, 1989).';
+
+  document.getElementById('kprofile-card').innerHTML=`
+    <h4 style="color:${color};font-size:1.2rem">📍 ${profile}</h4>
+    <p style="margin-top:8px">${desc}</p>`;
+
+  const maxD=16,maxL=16,maxS=12;
+  document.getElementById('kscores').innerHTML=`
+    <p style="font-family:'DM Sans',sans-serif;font-size:.85rem"><strong>Demandes :</strong> ${dem}/${maxD} &nbsp;|&nbsp; <strong>Latitude :</strong> ${lat}/${maxL} &nbsp;|&nbsp; <strong>Soutien :</strong> ${sou}/${maxS}</p>`;
+  document.getElementById('kbars').innerHTML=`
+    ${kbar('Demandes psychologiques',dem,maxD,'var(--accent)')}
+    ${kbar('Latitude décisionnelle',lat,maxL,'var(--accent3)')}
+    ${kbar('Soutien social',sou,maxS,'var(--accent2)')}`;
+
+  document.getElementById('kresult').style.display='block';
+  setTimeout(()=>document.getElementById('kresult').scrollIntoView({behavior:'smooth',block:'start'}),100);
+  // animate bars
+  setTimeout(()=>{
+    document.querySelectorAll('.kbar-fill').forEach(b=>{
+      const pct=b.getAttribute('data-pct');b.style.width=pct+'%';
+    });
+  },200);
+}
+function kbar(label,val,max,color){
+  const pct=Math.round(val/max*100);
+  return `<div class="kbar-wrap">
+    <div class="kbar-label"><span>${label}</span><span>${val}/${max} (${pct}%)</span></div>
+    <div class="kbar-track"><div class="kbar-fill" data-pct="${pct}" style="width:0;background:${color}"></div></div>
+  </div>`;
+}
+function rstKarasek(){
+  for(let k in KA)delete KA[k];
+  document.getElementById('kresult').style.display='none';
+  document.querySelectorAll('.kopt').forEach(b=>{b.disabled=false;b.classList.remove('sel')});
+  window.scrollTo(0,0);
+}
+
+// ============================================================
+// EXERCICE 3 — CLASSIFICATION PRÉVENTION
+// ============================================================
+const EX3=[
+  {q:'Politique de sélection des gestionnaires en fonction de leur capacité à gérer des personnes',ans:'pri',fb:'Primaire — On agit à la SOURCE en choisissant des leaders compétents avant que les problèmes n\'apparaissent.'},
+  {q:'Séances de rigolothérapie offertes à tous les employés d\'un centre hospitalier sur l\'heure du dîner',ans:'sec',fb:'Secondaire — On renforce les ressources individuelles (détente, humeur) sans modifier les stresseurs à la source.'},
+  {q:'Politique et programme de retour au travail pour personnes s\'étant absentées pour cause de trouble psychologique',ans:'ter',fb:'Tertiaire — On aide des personnes déjà atteintes à réintégrer le travail en toute sécurité.'},
+  {q:'Une cérémonie de départ à la retraite avec remise d\'une montre en or pour 30 années de service',ans:'sec',fb:'Secondaire (ou ambigu) — Acte de reconnaissance qui renforce le sentiment de valeur de l\'individu. Certains diraient que c\'est tertiaire s\'il s\'agit de réparer un manque. La reconnaissance n\'élimine pas les stresseurs à la source.'},
+  {q:'Formation offerte à une équipe de secrétaires intitulée « Siffler en travaillant »',ans:'sec',fb:'Secondaire — Formation visant à améliorer la posture émotionnelle des individus face à leurs conditions de travail, sans les modifier.'},
+  {q:'Séances de massage sur chaise offertes en milieu de travail',ans:'sec',fb:'Secondaire — Réduit les tensions musculaires et le stress ressenti, mais n\'agit pas sur les stresseurs organisationnels.'},
+  {q:'Réunions d\'équipe afin de discuter des rôles de chacun et des tâches à réaliser',ans:'pri',fb:'Primaire — Clarifier les rôles et les attentes réduit l\'ambiguïté et le conflit de rôle à la SOURCE.'},
+  {q:'Un manuel de procédures rédigé pour faciliter l\'entrée en poste des nouveaux arrivants',ans:'pri',fb:'Primaire — Réduire l\'ambiguïté et la surcharge lors de l\'intégration agit sur les conditions de travail, pas sur l\'individu.'},
+  {q:'Formation offerte avant l\'implantation d\'un nouveau système informatique',ans:'pri',fb:'Primaire — Anticiper la surcharge qualitative liée au changement et outiller les employés AVANT que le stresseur apparaisse.'},
+  {q:'Club social organisé par l\'employeur',ans:'sec',fb:'Secondaire — Renforce le soutien social et la cohésion d\'équipe, mais n\'élimine pas les stresseurs à la source.'},
+  {q:'Un gestionnaire problématique reçoit du coaching pour améliorer ses façons d\'être avec ses employés',ans:'pri',fb:'Primaire — On modifie un stresseur à la source en changeant les comportements managériaux nuisibles. C\'est la prévention la plus efficace.'},
+  {q:'Formation offerte à toutes les personnes en gestion sur le stress au travail et la détection des problèmes',ans:'pri',fb:'Primaire — Former les gestionnaires à reconnaître les risques et à agir change l\'environnement de travail en amont.'},
+  {q:'Utilisation de l\'approche appréciative pour implanter un changement organisationnel sans créer de tensions',ans:'pri',fb:'Primaire — On gère le changement de façon à minimiser les stresseurs liés à l\'incertitude et à l\'ambiguïté.'},
+  {q:'Distribution de CD de méditation et relaxation à tous les employés',ans:'sec',fb:'Secondaire — Renforce les ressources individuelles de coping. Utile mais ne touche pas aux causes organisationnelles du stress.'},
+  {q:'Un agent à temps plein embauché pour faciliter le retour au travail des personnes absentes pour un problème psychologique',ans:'ter',fb:'Tertiaire — Dispositif dédié à la réintégration et à la réhabilitation de personnes déjà atteintes.'}
+];
+let ex3Score=0,ex3Done=0;
+function initEx3(){
+  const c=document.getElementById('ex3-items');c.innerHTML='';
+  ex3Score=0;ex3Done=0;
+  EX3.forEach((item,i)=>{
+    c.innerHTML+=`<div class="ex3-item" id="ex3-item${i}">
+      <div class="ex3-q">${i+1}. ${item.q}</div>
+      <div class="ex3-btns">
+        <button class="ex3-btn pri" onclick="classif(${i},'pri')">🔴 Primaire</button>
+        <button class="ex3-btn sec" onclick="classif(${i},'sec')">🟡 Secondaire</button>
+        <button class="ex3-btn ter" onclick="classif(${i},'ter')">🔵 Tertiaire</button>
+      </div>
+      <div class="ex3-fb" id="ex3-fb${i}"></div>
+    </div>`;
+  });
+}
+function classif(i,choice){
+  const item=EX3[i];
+  const el=document.getElementById('ex3-item'+i);
+  el.querySelectorAll('.ex3-btn').forEach(b=>b.disabled=true);
+  const chosen=el.querySelector('.ex3-btn.'+choice);if(chosen)chosen.classList.add('sel');
+  const ok=choice===item.ans;
+  if(ok){el.classList.add('correct');ex3Score++;}else{el.classList.add('wrong');}
+  const fb=document.getElementById('ex3-fb'+i);
+  fb.className='ex3-fb show '+(ok?'ok':'no');
+  fb.innerHTML=(ok?'✅ ':'❌ ')+item.fb;
+  ex3Done++;
+  document.getElementById('ex3-count').textContent=ex3Done+' / '+EX3.length+' classifiés';
+  if(ex3Done===EX3.length) finishEx3();
+}
+function finishEx3(){
+  document.getElementById('ex3-done').style.display='block';
+  const pct=Math.round(ex3Score/EX3.length*100);
+  let msg=pct>=80?`🌟 Excellent ! ${ex3Score}/${EX3.length} — Vous maîtrisez bien les niveaux de prévention.`:
+          pct>=60?`👍 Bien ! ${ex3Score}/${EX3.length} — Relisez les cas ambigus pour consolider votre compréhension.`:
+          `📚 ${ex3Score}/${EX3.length} — Les frontières entre niveaux sont parfois floues. Relisez les explications ci-dessous.`;
+  document.getElementById('ex3-result-txt').textContent=msg;
+  setTimeout(()=>document.getElementById('ex3-done').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+function rstEx3(){
+  document.getElementById('ex3-done').style.display='none';
+  initEx3();window.scrollTo(0,0);
+}
+
+// ============================================================
+// EXERCICE 4A — CAS DE PAUL
+// ============================================================
+const PAUL_CORRECT_RPS=[1,2,3,4,6,7,8]; // indices of correct checkboxes (1-based)
+function updatePaulQ1(){
+  // live feedback not needed, button handles it
+}
+function checkPaulQ1(){
+  const correct=new Set(PAUL_CORRECT_RPS);
+  let good=0,total=PAUL_CORRECT_RPS.length,wrong=0;
+  for(let i=1;i<=10;i++){
+    const el=document.getElementById('pc'+i);
+    const checked=el.querySelector('input').checked;
+    if(correct.has(i)&&checked){good++;el.classList.add('correct');}
+    else if(!correct.has(i)&&checked){wrong++;el.classList.add('wrong');}
+    else if(correct.has(i)&&!checked){el.classList.add('wrong');}
+  }
+  const fb=document.getElementById('paul-q1-fb');
+  fb.style.display='block';
+  const missed=PAUL_CORRECT_RPS.length-good;
+  fb.querySelector('p').innerHTML=`<strong>Résultat :</strong> ${good}/${total} RPS identifiés correctement. ${wrong>0?'<br>⚠️ Vous avez coché '+wrong+' élément(s) qui ne sont pas clairement documentés dans le cas.':''} ${missed>0?'<br>📌 Vous avez manqué '+missed+' RPS présent(s) dans la situation.':''} <br><br><em>Consultez le corrigé complet ci-dessous pour les explications détaillées.</em>`;
+  document.getElementById('paul-q1-btn').textContent='✓ Vérifié';
+}
+function paulModel(choice){
+  ['pm1','pm2','pm3','pm4'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('pm'+choice).classList.add(choice===2||choice===3?'good':'bad');
+  const fb=document.getElementById('paul-model-fb');
+  fb.style.display='block';
+  const msgs={
+    1:'<strong>Moins pertinent ici.</strong> Selye décrit la réaction physiologique universelle au stress, mais ne permet pas d\'identifier les stresseurs organisationnels spécifiques comme le conflit de rôle ou le faible soutien. Il est utile pour décrire <em>comment</em> Paul réagit (épuisement), pas <em>pourquoi</em>.',
+    2:'<strong>Excellent choix !</strong> Karasek permet d\'identifier clairement le job strain de Paul : fortes demandes (2 patrons, tâches contradictoires), faible latitude (il n\'a pas l\'autorité pour superviser), et faible soutien (Raymond absent, collègues hostiles). La zone iso-strain (Johnson, 1989) s\'applique bien ici.',
+    3:'<strong>Très bon choix aussi !</strong> Lazarus & Folkman permettent d\'analyser comment Paul <em>évalue</em> la situation (menace à son image, débordement) et quelles stratégies de coping il utilise ou pourrait développer. Utile pour concevoir des interventions individuelles (secondaires).',
+    4:'<strong>Acceptable.</strong> Le modèle JD-R identifie les exigences (charge, conflits) et les ressources manquantes (soutien, clarté des rôles). Moins utilisé en pratique que Karasek pour ce type de cas, mais conceptuellement valide.'
+  };
+  fb.className='sc-res show '+(choice===2||choice===3?'good':'bad');
+  fb.innerHTML=msgs[choice];
+}
+function checkPaulQ3(){
+  document.getElementById('paul-corrige').style.display='block';
+  setTimeout(()=>document.getElementById('paul-corrige').scrollIntoView({behavior:'smooth',block:'start'}),100);
+}
+
+// ============================================================
+// EXERCICE 4B — CAS DE MOLLY
+// ============================================================
+function mollyKarasek(c){
+  ['mk1a','mk1b','mk1c'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('mk1'+c).classList.add(c==='b'?'good':'bad');
+  const fb=document.getElementById('molly-k-fb');fb.style.display='block';
+  const msgs={
+    a:'<strong>Incorrect.</strong> Molly N\'a pas de latitude décisionnelle — Keith ne lui donne aucune responsabilité ni marge de manœuvre. Elle n\'est pas dans un emploi actif.',
+    b:'<strong>Exact !</strong> Molly est en zone de job strain isolé : fortes demandes (cumul emploi + études), faible latitude (Keith la surveille et ne lui fait pas confiance), et faible soutien (pas d\'intégration à l\'équipe). Selon Johnson (1989), l\'isolement social amplifie les risques cardiovasculaires et de détresse — c\'est le profil iso-strain.',
+    c:'<strong>Incorrect.</strong> Le modèle de Karasek mesure bien la latitude — ou l\'absence de latitude. Molly a clairement un déficit sur les deux dimensions (latitude et soutien).'
+  };
+  fb.className='sc-res show '+(c==='b'?'good':'bad');
+  fb.innerHTML=msgs[c];
+}
+function mollySiegrist(c){
+  ['ms2a','ms2b','ms2c'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('ms2'+c).classList.add(c==='b'?'good':'bad');
+  const fb=document.getElementById('molly-s-fb');fb.style.display='block';
+  const msgs={
+    a:'<strong>Incorrect.</strong> Molly investit énormément (emploi + études) mais ne reçoit ni estime, ni traitement équitable, ni sécurité dans son environnement de travail. La récompense (au sens de Siegrist) est clairement insuffisante.',
+    b:'<strong>Exact !</strong> Siegrist (1996) identifie trois formes de récompenses : salaire/avantages, estime/reconnaissance, sécurité/promotion. Molly manque clairement d\'estime (Keith la déprécie) et perçoit une injustice distributive (elle seule est traitée de cette façon). Le déséquilibre effort-reconnaissance est un prédicteur indépendant de la détresse et des maladies cardiovasculaires.',
+    c:'<strong>Incorrect.</strong> Le modèle de Siegrist s\'applique à toute situation où il y a un effort fourni en échange d\'une récompense attendue — ce qui est clairement le cas de Molly, qu\'elle soit étudiante ou non.'
+  };
+  fb.className='sc-res show '+(c==='b'?'good':'bad');
+  fb.innerHTML=msgs[c];
+}
+function mollyLazarus(c){
+  ['ml3a','ml3b','ml3c'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('ml3'+c).classList.add(c==='b'?'good':'bad');
+  const fb=document.getElementById('molly-l-fb');fb.style.display='block';
+  const msgs={
+    a:'<strong>Partiellement utile, mais insuffisant.</strong> L\'évaluation primaire peut être recadrée (reappraisal), mais la situation de Molly est objectivement difficile. Minimiser son évaluation sans agir sur les stresseurs réels serait contre-productif.',
+    b:'<strong>Exact !</strong> Lazarus & Folkman proposent trois stratégies de coping : (1) centré sur le problème — approcher les RH, chercher du soutien formel, réduire les exigences ; (2) centré sur l\'émotion — réguler ses réactions, accepter ce qui ne peut être changé ; (3) centré sur le soutien social — c\'est d\'ailleurs ce que Molly a fait en parlant à un ami. L\'idéal est une combinaison des trois.',
+    c:'<strong>Vrai mais ce n\'est pas Lazarus & Folkman.</strong> Modifier les stresseurs objectifs relève de la prévention primaire organisationnelle. Le modèle de Lazarus porte sur les stratégies d\'adaptation de l\'individu face à une situation perçue comme menaçante, pas sur la modification de l\'environnement.'
+  };
+  fb.className='sc-res show '+(c==='b'?'good':'bad');
+  fb.innerHTML=msgs[c];
+}
+function showMollyKeith(){
+  document.getElementById('molly-keith-corrige').style.display='block';
+  setTimeout(()=>document.getElementById('molly-keith-corrige').scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+
+// Init exercises on load
+initEx3();
 </script>
 </body>
 </html>
